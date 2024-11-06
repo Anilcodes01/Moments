@@ -56,22 +56,14 @@ const MomentPage = () => {
       <h1 className="text-2xl font-semibold">{moment.title}</h1>
       <p>{moment.caption}</p>
       <div className="flex items-center space-x-4">
-      <Image 
-             src={moment.coverImage}
-             alt={moment.title}
-             className="w-full h-auto mt-2 rounded"/>
+      
         <div>
           <p className="font-semibold">{moment.user.name}</p>
           <p className="text-sm text-gray-500">@{moment.user.username}</p>
         </div>
       </div>
       <div className="mt-4">
-        {moment.coverImage && (
-           <Image 
-           src={moment.coverImage}
-           alt={moment.title}
-           className="w-full h-auto mt-2 rounded"/>
-        )}
+       
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         {moment.media.map((media) => (
@@ -79,7 +71,9 @@ const MomentPage = () => {
             {media.type === 'PHOTO' ? (
               <Image
                 src={media.url}
+                height={200}
                 alt={media.caption}
+                width={200}
                 className="w-full h-48 object-cover rounded-lg"
               />
             ) : (
