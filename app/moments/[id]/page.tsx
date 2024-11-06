@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import axios from 'axios';
 import Image from 'next/image';
 
