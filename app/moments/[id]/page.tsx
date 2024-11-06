@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
+import Image from 'next/image';
 
 type Media = {
   id: string;
@@ -25,7 +26,7 @@ type Moment = {
 };
 
 const MomentPage = () => {
-  const router = useRouter();
+  
   const { id } = useParams();
   const [moment, setMoment] = useState<Moment | null>(null);
   const [loading, setLoading] = useState(true);
@@ -55,11 +56,10 @@ const MomentPage = () => {
       <h1 className="text-2xl font-semibold">{moment.title}</h1>
       <p>{moment.caption}</p>
       <div className="flex items-center space-x-4">
-        <img
-          src={moment.user.avatarUrl}
-          alt={`${moment.user.name}'s avatar`}
-          className="w-10 h-10 rounded-full"
-        />
+      <Image 
+             src={moment.coverImage}
+             alt={moment.title}
+             className="w-full h-auto mt-2 rounded"/>
         <div>
           <p className="font-semibold">{moment.user.name}</p>
           <p className="text-sm text-gray-500">@{moment.user.username}</p>
@@ -67,18 +67,17 @@ const MomentPage = () => {
       </div>
       <div className="mt-4">
         {moment.coverImage && (
-          <img
-            src={moment.coverImage}
-            alt="Cover image"
-            className="w-full h-64 object-cover rounded-lg"
-          />
+           <Image 
+           src={moment.coverImage}
+           alt={moment.title}
+           className="w-full h-auto mt-2 rounded"/>
         )}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         {moment.media.map((media) => (
           <div key={media.id} className="relative">
             {media.type === 'PHOTO' ? (
-              <img
+              <Image
                 src={media.url}
                 alt={media.caption}
                 className="w-full h-48 object-cover rounded-lg"

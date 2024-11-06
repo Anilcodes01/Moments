@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 interface User {
@@ -53,11 +54,10 @@ export default function Profile() {
             >
               <h2 className="text-lg  text-black font-semibold">{moment.title}</h2>
               <p className="text-gray-600">{moment.caption}</p>
-              <img
-                src={moment.coverImage}
-                alt={moment.title}
-                className="w-full h-auto mt-2 rounded"
-              />
+            <Image 
+             src={moment.coverImage}
+             alt={moment.title}
+             className="w-full h-auto mt-2 rounded"/>
               <p className="text-sm text-gray-400">
                 Created at: {new Date(moment.createdAt).toLocaleDateString()}
               </p>
