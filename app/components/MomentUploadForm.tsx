@@ -1,27 +1,72 @@
-'use client';
-import { useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
+"use client";
+
+import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+
+interface MomentSection {
+  image: File | null;
+  caption: string;
+  previewUrl: string | null;
+}
 
 const CreateMoment = () => {
   const router = useRouter();
-  const [title, setTitle] = useState('');
-  const [caption, setCaption] = useState('');
+  const [title, setTitle] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
-  const [mediaFiles, setMediaFiles] = useState<File[]>([]);
+  const [coverPreviewUrl, setCoverPreviewUrl] = useState<string | null>(null);
+  const [momentSections, setMomentSections] = useState<MomentSection[]>([
+    { image: null, caption: "", previewUrl: null },
+  ]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleCoverImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleCoverImageChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (event.target.files && event.target.files[0]) {
-      setCoverImage(event.target.files[0]);
+      const file = event.target.files[0];
+      setCoverImage(file);
+      setCoverPreviewUrl(URL.createObjectURL(file));
     }
   };
 
-  const handleAddMedia = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const newFiles = Array.from(event.target.files);
-      setMediaFiles((prevFiles) => [...prevFiles, ...newFiles]);
+  const handleImageChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const newMomentSections = [...momentSections];
+      newMomentSections[index].image = file;
+      newMomentSections[index].previewUrl = URL.createObjectURL(file);
+      setMomentSections(newMomentSections);
     }
+  };
+
+  const handleCaptionChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const newMomentSections = [...momentSections];
+    newMomentSections[index].caption = event.target.value;
+    setMomentSections(newMomentSections);
+  };
+
+  const handleAddMomentSection = () => {
+    setMomentSections([
+      ...momentSections,
+      { image: null, caption: "", previewUrl: null },
+    ]);
+  };
+
+  const handleRemoveMomentSection = (index: number) => {
+    const newMomentSections = [...momentSections];
+    newMomentSections.splice(index, 1);
+    setMomentSections(newMomentSections);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -29,31 +74,42 @@ const CreateMoment = () => {
     setIsSubmitting(true);
 
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('caption', caption);
+    formData.append("title", title);
     if (coverImage) {
-      formData.append('coverImage', coverImage);
+      formData.append("coverImage", coverImage);
     }
-    mediaFiles.forEach((file) => formData.append('media', file));
+
+    momentSections.forEach((section, index) => {
+      if (section.image) formData.append(`media_${index}`, section.image);
+      formData.append(`caption_${index}`, section.caption);
+    });
 
     try {
-      await axios.post('/api/moments', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      const response = await axios.post('/api/moments', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
-      router.push('/moments');
+
+      if (response.data?.moment?.id) {
+        router.push(`/moments/${response.data.moment.id}`);
+      } else {
+        throw new Error('Moment ID not found');
+      }
+
+      
     } catch (error) {
-      console.error('Failed to create moment:', error);
-      alert('Failed to create moment. Please try again.');
+      console.error("Failed to create moment:", error);
+      alert("Failed to create moment. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-4">
-      <div>
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-6 min-h-screen bg-white text-black p-6"
+    >
+      <div className="mb-6">
         <label htmlFor="title" className="block text-sm font-medium">
           Title
         </label>
@@ -61,75 +117,72 @@ const CreateMoment = () => {
           type="text"
           id="title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="mt-1 block text-black w-full p-2 border rounded-md"
+          onChange={handleTitleChange}
+          className="mt-1 block w-full p-2 border outline-none rounded-md text-black"
           required
         />
       </div>
 
-      <div>
-        <label htmlFor="caption" className="block text-sm font-medium">
-          Caption
-        </label>
-        <textarea
-          id="caption"
-          value={caption}
-          onChange={(e) => setCaption(e.target.value)}
-          className="mt-1 block w-full text-black p-2 border rounded-md"
-          rows={3}
-          required
-        ></textarea>
-      </div>
-
-      <div>
-        <label htmlFor="coverImage" className="block text-sm font-medium">
-          Cover Image
-        </label>
+      <div className="mb-6">
+        <label className="block text-sm font-medium mb-2">Cover Image</label>
         <input
           type="file"
-          id="coverImage"
           accept="image/*"
           onChange={handleCoverImageChange}
-          className="mt-1 block w-full text-white p-2 border rounded-md"
+          className="block w-full p-2 border rounded-md text-black"
         />
+        {coverPreviewUrl && (
+          <img
+            src={coverPreviewUrl}
+            alt="Cover Image Preview"
+            className="mt-2 w-full h-[200px] object-cover rounded-lg"
+          />
+        )}
       </div>
 
-      <div>
-        <label className="block text-sm font-medium">
-          Media Files
-        </label>
-        <div className="flex items-center gap-2">
-          <input
-            type="file"
-            multiple
-            accept="image/*,video/*"
-            onChange={handleAddMedia}
-            className="hidden"
-            id="mediaInput"
-          />
-          <button
-            type="button"
-            onClick={() => document.getElementById('mediaInput')?.click()}
-            className="py-2 px-4 bg-gray-300 text-black font-semibold rounded-md hover:bg-gray-400"
-          >
-            + Add Media
-          </button>
+      {momentSections.map((section, index) => (
+        <div key={index} className="flex flex-col gap-6 mb-6">
+          <div>
+            <label className="block text-sm font-medium mb-2">Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => handleImageChange(index, e)}
+              className="block w-full p-2 border rounded-md text-black"
+            />
+            {section.previewUrl && (
+              <img
+                src={section.previewUrl}
+                alt="Image Preview"
+                className="mt-2 w-full h-[200px] object-cover rounded-lg"
+              />
+            )}
+          </div>
+          <textarea
+            value={section.caption}
+            onChange={(e) => handleCaptionChange(index, e)}
+            className="block w-full p-2 outline-none rounded-md text-black"
+            rows={3}
+            placeholder="Write something about the image..."
+            required
+          ></textarea>
         </div>
-        <div className="mt-2 space-y-2">
-          {mediaFiles.map((file, index) => (
-            <div key={index} className="text-sm text-gray-600">
-              {file.name}
-            </div>
-          ))}
-        </div>
-      </div>
+      ))}
+
+      <button
+        type="button"
+        onClick={handleAddMomentSection}
+        className="px-2 bg-gray-300 text-black font-semibold rounded-full hover:bg-gray-400 mb-6"
+      >
+        +
+      </button>
 
       <button
         type="submit"
         disabled={isSubmitting}
         className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700"
       >
-        {isSubmitting ? 'Uploading...' : 'Create Moment'}
+        {isSubmitting ? "Uploading..." : "Create Moment"}
       </button>
     </form>
   );

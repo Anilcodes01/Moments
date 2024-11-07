@@ -1,9 +1,8 @@
-
-import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-import { v2 as cloudinary } from 'cloudinary';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/app/lib/authOptions';
+import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+import { v2 as cloudinary } from "cloudinary";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/lib/authOptions";
 
 const prisma = new PrismaClient();
 
@@ -13,73 +12,70 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-
-
 export async function POST(request: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const formData = await request.formData();
-    const title = formData.get('title') as string;
-    const caption = formData.get('caption') as string;
-    const coverImageFile = formData.get('coverImage') as File | null;
-    const mediaFiles = formData.getAll('media') as File[];
+    const title = formData.get("title") as string;
+    const coverImageFile = formData.get("coverImage") as File | null;
 
-    // Upload cover image to Cloudinary if it exists
-    let coverImageUrl = '';
+    let coverImageUrl = "";
     if (coverImageFile) {
       const buffer = await coverImageFile.arrayBuffer();
-      const base64 = Buffer.from(buffer).toString('base64');
+      const base64 = Buffer.from(buffer).toString("base64");
       const dataURI = `data:${coverImageFile.type};base64,${base64}`;
-      
+
       const result = await cloudinary.uploader.upload(dataURI, {
-        folder: 'moments/cover_images',
-        resource_type: 'image',
+        folder: "moments/cover_images",
+        resource_type: "image",
       });
       coverImageUrl = result.secure_url;
     }
 
-    // Create moment in the database
     const moment = await prisma.moment.create({
       data: {
         title,
-        caption,
         coverImage: coverImageUrl,
         userId: session.user.id,
       },
     });
 
-    // Upload media files to Cloudinary
-    const mediaPromises = mediaFiles.map(async (file) => {
-      const buffer = await file.arrayBuffer();
-      const base64 = Buffer.from(buffer).toString('base64');
-      const dataURI = `data:${file.type};base64,${base64}`;
-      
-      const result = await cloudinary.uploader.upload(dataURI, {
-        resource_type: 'auto',
-        folder: 'moments',
-      });
+    const mediaPromises = Array.from(formData.entries())
+      .filter(([key]) => key.startsWith("media_"))
+      .map(async ([key, value], index) => {
+        const file = value as File;
+        const buffer = await file.arrayBuffer();
+        const base64 = Buffer.from(buffer).toString("base64");
+        const dataURI = `data:${file.type};base64,${base64}`;
 
-      return prisma.media.create({
-        data: {
-          url: result.secure_url,
-          type: file.type.includes('video') ? 'VIDEO' : 'PHOTO',
-          momentId: moment.id,
-          caption: '',
-        },
+        const result = await cloudinary.uploader.upload(dataURI, {
+          resource_type: "auto",
+          folder: "moments",
+        });
+
+        const caption = (formData.get(`caption_${index}`) as string) || "";
+
+        return prisma.media.create({
+          data: {
+            url: result.secure_url,
+            type: file.type.includes("video") ? "VIDEO" : "PHOTO",
+            momentId: moment.id,
+            caption,
+          },
+        });
       });
-    });
 
     const media = await Promise.all(mediaPromises);
 
     return NextResponse.json({ moment, media });
   } catch (error) {
-    console.error('Error creating moment:', error);
+    console.error("Error creating moment:", error);
     return NextResponse.json(
-      { error: 'Failed to create moment' },
+      { error: "Failed to create moment" },
       { status: 500 }
     );
   }
