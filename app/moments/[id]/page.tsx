@@ -1,8 +1,8 @@
-"use client";
+'use client'
 import { useEffect, useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
-import { useParams } from "next/navigation";
 import axios from "axios";
+import { FaUserCircle } from "react-icons/fa";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 
 type Media = {
@@ -10,6 +10,7 @@ type Media = {
   url: string;
   type: "PHOTO" | "VIDEO";
   caption: string;
+  createdAt: string; 
 };
 
 type Moment = {
@@ -17,6 +18,7 @@ type Moment = {
   title: string;
   caption: string;
   coverImage: string;
+  createdAt: string;
   media: Media[];
   user: {
     id: string;
@@ -27,6 +29,7 @@ type Moment = {
 };
 
 const MomentPage = () => {
+  const router = useRouter();
   const { id } = useParams();
   const [moment, setMoment] = useState<Moment | null>(null);
   const [loading, setLoading] = useState(true);
@@ -37,7 +40,18 @@ const MomentPage = () => {
     const fetchMoment = async () => {
       try {
         const response = await axios.get(`/api/moments/${id}`);
-        setMoment(response.data);
+        const fetchedMoment = response.data;
+
+        const sortedMedia = fetchedMoment.media.sort((a: Media, b: Media) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
+
+        sortedMedia.reverse();
+
+        setMoment({
+          ...fetchedMoment,
+          media: sortedMedia, 
+        });
       } catch (error) {
         console.error("Error fetching moment:", error);
       } finally {
@@ -51,15 +65,15 @@ const MomentPage = () => {
   if (loading) return <p>Loading...</p>;
   if (!moment) return <p>Moment not found.</p>;
 
+
+
   return (
     <div className="space-y-4 bg-white min-h-screen text-black p-4">
-      <h1 className="text-2xl border p-1 rounded-lg font-semibold">
-        {moment.title}
-      </h1>
+      <h1 className="text-2xl border p-1 rounded-lg font-semibold">{moment.title}</h1>
       <p>{moment.caption}</p>
       <div className="flex items-center space-x-4">
         <div className="flex items-center gap-2">
-          <div>
+          <div onClick={() => router.push(`/${moment.user.id}`)}>
             {moment.user.avatarUrl ? (
               <Image
                 src={moment.user.avatarUrl}
@@ -73,33 +87,49 @@ const MomentPage = () => {
             )}
           </div>
           <div>
-            <p className="font-semibold text-sm">{moment.user.name}</p>
-            <p className="text-xs text-gray-500">{moment.user.username}</p>
+            <p onClick={() => router.push(`/${moment.user.id}`)} className="font-semibold text-sm">{moment.user.name}</p>
+            <p onClick={() => router.push(`/${moment.user.id}`)} className="text-xs text-gray-500">@{moment.user.username}</p>
           </div>
+          
         </div>
       </div>
       <div className="mt-4"></div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-        {moment.media.map((media) => (
-          <div key={media.id} className="relative">
-            {media.type === "PHOTO" ? (
-              <Image
-                src={media.url}
-                height={200}
-                alt={media.caption}
-                width={200}
-                className="w-full h-48 border object-cover rounded-lg"
-              />
-            ) : (
-              <video
-                src={media.url}
-                controls
-                className="w-full h-48 object-cover rounded-lg"
-              />
-            )}
-            {media.caption && <p className=" mt-2">{media.caption}</p>}
-          </div>
-        ))}
+        {moment.media.map((media) => {
+          
+          const formattedMediaDate = new Date(media.createdAt).toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          });
+
+          return (
+            <div key={media.id} className="relative">
+              {media.type === "PHOTO" ? (
+                <Image
+                  src={media.url}
+                  height={200}
+                  alt={media.caption}
+                  width={200}
+                  className="w-full h-48 border object-cover rounded-lg"
+                />
+              ) : (
+                <video
+                  src={media.url}
+                  controls
+                  className="w-full h-48 object-cover rounded-lg"
+                />
+              )}
+              {media.caption && 
+              <div>
+                <p className="mt-2">{media.caption}</p>
+                <p className="mt-1 text-xs text-gray-800">{formattedMediaDate}</p> {/* Display formatted media creation date */}
+              </div>
+              }
+            </div>
+          );
+        })}
       </div>
     </div>
   );
