@@ -173,7 +173,7 @@ const CreateMoment = () => {
       <button
         type="button"
         onClick={handleAddMomentSection}
-        className="px-2 bg-gray-300 text-black font-semibold rounded-full hover:bg-gray-400 mb-6"
+        className="px-2 bg-blue-400 text-white items-center text-center font-semibold rounded-full hover:bg-gray-400 mb-6"
       >
         +
       </button>
