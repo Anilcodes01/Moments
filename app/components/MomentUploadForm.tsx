@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface MomentSection {
   image: File | null;
@@ -24,9 +25,7 @@ const CreateMoment = () => {
     setTitle(e.target.value);
   };
 
-  const handleCoverImageChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleCoverImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       setCoverImage(file);
@@ -34,10 +33,7 @@ const CreateMoment = () => {
     }
   };
 
-  const handleImageChange = (
-    index: number,
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleImageChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       const newMomentSections = [...momentSections];
@@ -47,10 +43,7 @@ const CreateMoment = () => {
     }
   };
 
-  const handleCaptionChange = (
-    index: number,
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleCaptionChange = (index: number, event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newMomentSections = [...momentSections];
     newMomentSections[index].caption = event.target.value;
     setMomentSections(newMomentSections);
@@ -94,8 +87,6 @@ const CreateMoment = () => {
       } else {
         throw new Error('Moment ID not found');
       }
-
-      
     } catch (error) {
       console.error("Failed to create moment:", error);
       alert("Failed to create moment. Please try again.");
@@ -105,10 +96,7 @@ const CreateMoment = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-6 min-h-screen bg-white text-black p-6"
-    >
+    <form onSubmit={handleSubmit} className="space-y-6 min-h-screen bg-white text-black p-6">
       <div className="mb-6">
         <label htmlFor="title" className="block text-sm font-medium">
           Title
@@ -132,9 +120,11 @@ const CreateMoment = () => {
           className="block w-full p-2 border rounded-md text-black"
         />
         {coverPreviewUrl && (
-          <img
+          <Image
             src={coverPreviewUrl}
             alt="Cover Image Preview"
+            width={800}
+            height={200}
             className="mt-2 w-full h-[200px] object-cover rounded-lg"
           />
         )}
@@ -143,7 +133,16 @@ const CreateMoment = () => {
       {momentSections.map((section, index) => (
         <div key={index} className="flex flex-col gap-6 mb-6">
           <div>
-            <label className="block text-sm font-medium mb-2">Image</label>
+            <div className="flex justify-between">
+              <label className="block text-sm font-medium mb-2">Image</label>
+              <button
+                type="button"
+                onClick={() => handleRemoveMomentSection(index)}
+                className="self-start px-2 bg-red-500 text-white rounded-full hover:bg-red-600"
+              >
+                ×
+              </button>
+            </div>
             <input
               type="file"
               accept="image/*"
@@ -151,9 +150,11 @@ const CreateMoment = () => {
               className="block w-full p-2 border rounded-md text-black"
             />
             {section.previewUrl && (
-              <img
+              <Image
                 src={section.previewUrl}
                 alt="Image Preview"
+                width={800}
+                height={200}
                 className="mt-2 w-full h-[200px] object-cover rounded-lg"
               />
             )}
