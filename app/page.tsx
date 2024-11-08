@@ -33,6 +33,7 @@ export default function Home() {
         const response = await axios.get("/api/moments/fetchAllMoments");
         setMoments(response.data.moments);
       } catch (error) {
+        console.log(error)
         setError("Failed to fetch moments.");
       } finally {
         setLoading(false);

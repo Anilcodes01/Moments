@@ -22,7 +22,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       const { id } = params;
       const formData = await request.formData();
   
-      // Check if the moment exists
+     
       const existingMoment = await prisma.moment.findUnique({
         where: { id },
       });
@@ -31,10 +31,11 @@ export async function PUT(request: Request, { params }: { params: { id: string }
         return NextResponse.json({ error: "Moment not found" }, { status: 404 });
       }
   
-      // Handle media files (add or update)
+      
       const mediaPromises = Array.from(formData.entries())
         .filter(([key]) => key.startsWith("media_"))
         .map(async ([key, value], index) => {
+          console.log(key)
           const file = value as File;
           const buffer = await file.arrayBuffer();
           const base64 = Buffer.from(buffer).toString("base64");

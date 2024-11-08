@@ -4,7 +4,7 @@ import axios from "axios";
 import { FaUserCircle } from "react-icons/fa";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import MomentUpdateForm from "@/app/components/MomentUpdateForm";
+// import MomentUpdateForm from "@/app/components/MomentUpdateForm";
 
 type Media = {
   id: string;
@@ -133,7 +133,7 @@ const MomentPage = () => {
         })}
       </div>
 
-      <MomentUpdateForm moment={moment}/>
+      {/* <MomentUpdateForm moment={moment}/> */}
     </div>
   );
 };
