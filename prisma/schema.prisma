@@ -48,6 +48,7 @@ model Media {
   moment    Moment   @relation(fields: [momentId], references: [id])
 
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
 }
 
 enum MediaType {

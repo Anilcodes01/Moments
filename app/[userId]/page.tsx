@@ -4,7 +4,7 @@ import { FaUserCircle } from "react-icons/fa";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import MomentCard from "../components/MomentCard";
+import MomentProfileCard from "../components/MomentProfileCard";
 
 interface User {
   id: string;
@@ -97,7 +97,7 @@ export default function Profile() {
       <div className="mt-6 w-full max-w-4xl grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
   {user?.moments?.length ? (
     user.moments.map((moment) => (
-      <MomentCard key={moment.id} moment={moment} />
+      <MomentProfileCard key={moment.id} moment={moment} />
     ))
   ) : (
     <p className="text-gray-500 text-center w-full col-span-2 md:col-span-3">
