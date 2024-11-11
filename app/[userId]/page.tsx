@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import MomentProfileCard from "../components/MomentProfileCard";
-import { useSession } from "next-auth/react";
 
 interface User {
   id: string;
