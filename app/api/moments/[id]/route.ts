@@ -34,8 +34,14 @@ export async function GET(request: Request, { params }: { params: { id: string }
 
     // Return the moment with the sorted media
     return NextResponse.json({ ...moment, media: sortedMedia });
-  } catch (error) {
-    console.error('Error fetching moment:', error);
+  }  catch (error) {
+    if (error instanceof Error) {
+      console.error('Error fetching moment:', error.message, error.stack);
+    } else {
+      console.error('Unknown error:', error);
+    }
+  
     return NextResponse.json({ error: 'Failed to fetch moment' }, { status: 500 });
   }
+  
 }
