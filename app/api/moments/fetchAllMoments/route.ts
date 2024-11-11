@@ -1,7 +1,8 @@
 import { prisma } from "@/app/lib/prisma";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+
+export const GET = async () => {
   try {
     const moments = await prisma.moment.findMany({
       select: {
@@ -24,7 +25,7 @@ export async function GET() {
         message: "Moments fetched successfully...!",
         moments,
       },
-      { status: 200 }
+      { status: 200, headers: { 'Cache-Control': 'no-store' } }
     );
   } catch (error) {
     return NextResponse.json(
@@ -35,4 +36,5 @@ export async function GET() {
       { status: 500 }
     );
   }
-}
+};
+
