@@ -31,7 +31,7 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
     if (userId) {
       const fetchUserData = async () => {
         try {
-          const response = await axios.get(`/api/users/${userId}`);
+          const response = await axios.get(`/api/user/${userId}`);
           const userData = response.data.user;
           setUserProfile(userData);
         } catch (error) {
