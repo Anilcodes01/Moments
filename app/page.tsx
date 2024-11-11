@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useState, useEffect } from "react";
 import Appbar from "./components/Appbar";
 import axios from "axios";
@@ -31,10 +31,16 @@ export default function Home() {
     const fetchMoments = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("/api/moments/fetchAllMoments");
+        const response = await axios.get("/api/moments/fetchAllMoments", {
+          headers: {
+            "Cache-Control": "no-store, no-cache, max-age=0, must-revalidate",
+            Pragma: "no-cache",
+            Expires: "0",
+          },
+        });
         setMoments(response.data.moments);
       } catch (error) {
-        console.log(error)
+        console.log(error);
         setError("Failed to fetch moments.");
       } finally {
         setLoading(false);
@@ -47,7 +53,7 @@ export default function Home() {
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="h-16">
-      <Appbar />
+        <Appbar />
       </div>
 
       <div className="flex flex-col md:flex-row">
@@ -59,7 +65,9 @@ export default function Home() {
         {/* Main Content Area */}
         <div className="flex-1 md:ml-52 lg:ml-80 py-8 px-4 lg:px-10">
           {loading ? (
-            <div className="text-center text-gray-700 text-lg">Loading moments...</div>
+            <div className="text-center text-gray-700 text-lg">
+              Loading moments...
+            </div>
           ) : error ? (
             <div className="text-center text-red-600 text-lg">{error}</div>
           ) : (

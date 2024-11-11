@@ -1,6 +1,8 @@
 import { prisma } from "@/app/lib/prisma";
 import { NextResponse } from "next/server";
 
+export const revalidate = 0;
+
 
 export const GET = async () => {
   try {
@@ -25,7 +27,12 @@ export const GET = async () => {
         message: "Moments fetched successfully...!",
         moments,
       },
-      { status: 200, headers: { 'Cache-Control': 'no-store' } }
+      {
+        status: 200,
+        headers: {
+          "Cache-Control": "no-store, no-cache, max-age=0, must-revalidate",
+        },
+      }
     );
   } catch (error) {
     return NextResponse.json(
@@ -37,4 +44,3 @@ export const GET = async () => {
     );
   }
 };
-
