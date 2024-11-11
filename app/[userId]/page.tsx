@@ -26,7 +26,7 @@ interface Moment {
 export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
   const { userId } = useParams();
-  const { data: session } = useSession();
+ 
 
   useEffect(() => {
     if (!userId) return;
