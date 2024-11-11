@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Appbar from "./components/Appbar";
 import axios from "axios";
 import MomentCard from "./components/MomentCard";
+import Sidebar from "./components/sidebar";
 
 interface User {
   id: string;
@@ -44,19 +45,36 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-slate-100 min-h-screen">
+    <div className="bg-gray-100 min-h-screen">
+      <div className="h-16">
       <Appbar />
+      </div>
 
-      <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {loading ? (
-          <p className="text-black">Loading moments...</p>
-        ) : error ? (
-          <p>{error}</p>
-        ) : (
-          moments.map((moment) => (
-            <MomentCard key={moment.id} moment={moment} />
-          ))
-        )}
+      <div className="flex flex-col md:flex-row">
+        {/* Sidebar for Desktop */}
+        <div className="hidden md:block fixed w-52 lg:w-80 h-full bg-white shadow-md">
+          <Sidebar />
+        </div>
+
+        {/* Main Content Area */}
+        <div className="flex-1 md:ml-52 lg:ml-80 py-8 px-4 lg:px-10">
+          {loading ? (
+            <div className="text-center text-gray-700 text-lg">Loading moments...</div>
+          ) : error ? (
+            <div className="text-center text-red-600 text-lg">{error}</div>
+          ) : (
+            <div className="space-y-6">
+              {moments.map((moment) => (
+                <MomentCard key={moment.id} moment={moment} />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Mobile Bottom Navbar */}
+      <div className="md:hidden fixed bottom-0 w-full bg-white shadow-md border-t border-gray-200">
+        <Sidebar isMobile={true} />
       </div>
     </div>
   );

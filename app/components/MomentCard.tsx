@@ -28,11 +28,11 @@ export default function MomentCard({ moment }: { moment: Moment }) {
       onClick={() => {
         router.push(`/moments/${moment.id}`);
       }}
-      className="w-full max-w-xs mx-auto cursor-pointer p-4 bg-white rounded shadow-md"
+      className="w-full  max-w-xs mx-auto cursor-pointer p-4 bg-white rounded shadow-md"
     >
       {/* User Info */}
       {user && (
-        <div className="flex items-center mb-2">
+        <div className="flex relative items-center mb-2">
           {user.avatarUrl ? (
             <Image
               src={user.avatarUrl}
