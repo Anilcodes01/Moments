@@ -41,7 +41,11 @@ export async function GET(request: Request, { params }: { params: { id: string }
       console.error('Unknown error:', error);
     }
   
-    return NextResponse.json({ error: 'Failed to fetch moment' }, { status: 500 });
+    return NextResponse.json({ 
+      message: 'Failed to fetch moment', 
+      error
+    
+    }, { status: 500 });
   }
   
 }
