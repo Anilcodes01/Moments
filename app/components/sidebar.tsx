@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Search } from "lucide-react";
 import { SquarePlus } from "lucide-react";
+import Link from "next/link";
 
 interface UserProfile {
   id: string;
@@ -57,8 +58,9 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
             : "flex flex-col w-full text-center p-4 gap-4"
         }`}
       >
-        <div className="flex gap-2 items-center text-white cursor-pointer  rounded-lg p-2 hover:text-white">
-          <GoHome onClick={() => router.push("/")} size={24} />
+       <Link href={'/'}>
+       <div className="flex gap-2 items-center text-white cursor-pointer  rounded-lg p-2 hover:text-white">
+          <GoHome  size={24} />
           {!isMobile && (
             <button
               onClick={() => router.push("/")}
@@ -68,6 +70,7 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
             </button>
           )}
         </div>
+       </Link>
         <div className="flex gap-2 hover:text-white items-center text-white cursor-pointer  rounded-lg p-2 ">
           <Search size={22} />
           {!isMobile && <button className="text-xl">Search</button>}
@@ -95,28 +98,25 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
             </button>
           </div>
         ) : (
-          <div className="flex gap-2 items-center cursor-pointer hover:bg-slate-200 rounded-lg p-2 hover:text-black">
-            <div
-              onClick={() => {
-                router.push(`/${userId}`);
-              }}
-              className="flex h-8 w-8 overflow-hidden items-center"
-            >
-              {session?.user.avatarUrl ? (
-                <Image
-                  src={session.user.avatarUrl}
-                  alt="User Profile Picture"
-                  width={100}
-                  height={100}
-                  className="rounded-full h-8 w-8 overflow-hidden object-cover cursor-pointer"
-                />
-              ) : (
-                <div className="flex items-center justify-center cursor-pointer h-7 w-7 rounded-full border bg-gray-500 text-black">
-                  {session?.user.name?.charAt(0).toUpperCase()}
-                </div>
-              )}
-            </div>
-          </div>
+          <Link href={`/${userId}`}>
+  <div className="flex gap-2 items-center cursor-pointer rounded-lg p-2">
+    <div className="flex h-8 w-8 overflow-hidden items-center">
+      {session?.user.avatarUrl ? (
+        <Image
+          src={session.user.avatarUrl}
+          alt="User Profile Picture"
+          width={100}
+          height={100}
+          className="rounded-full h-8 w-8 overflow-hidden object-cover cursor-pointer"
+        />
+      ) : (
+        <div className="flex items-center justify-center cursor-pointer h-7 w-7 rounded-full border bg-gray-500 text-black">
+          {session?.user.name?.charAt(0).toUpperCase()}
+        </div>
+      )}
+    </div>
+  </div>
+</Link>
         )}
       </div>
 
