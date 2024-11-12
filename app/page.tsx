@@ -57,7 +57,7 @@ export default function Home() {
     };
 
     fetchMoments();
-  }, []);
+  }, [router, session]);
 
   return (
     <div className="bg-gray-100 min-h-screen">
