@@ -45,8 +45,8 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
 
   return (
     <div
-      className={`bg-white ${
-        isMobile ? "w-full flex-row justify-around" : "w-full flex-col"
+      className={`bg-black ${
+        isMobile ? "w-full flex-row  justify-around" : "w-full flex-col"
       } flex items-center h-full md:h-screen text-black`}
     >
       {/* Navigation buttons */}
@@ -57,7 +57,7 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
             : "flex flex-col w-full text-center p-4 gap-4"
         }`}
       >
-        <div className="flex gap-2 items-center cursor-pointer hover:bg-slate-200 rounded-lg p-2 hover:text-black">
+        <div className="flex gap-2 items-center text-white cursor-pointer hover:bg-slate-200 rounded-lg p-2 hover:text-white">
           <GoHome onClick={() => router.push("/")} size={24} />
           {!isMobile && (
             <button
@@ -68,11 +68,11 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
             </button>
           )}
         </div>
-        <div className="flex gap-2 items-center cursor-pointer hover:bg-slate-200 rounded-lg p-2 hover:text-black">
+        <div className="flex gap-2 items-center text-white cursor-pointer hover:bg-slate-200 rounded-lg p-2 hover:text-black">
           <Search size={22} />
           {!isMobile && <button className="text-xl">Search</button>}
         </div>
-        <div className="flex gap-2 items-center cursor-pointer hover:bg-slate-200 rounded-lg p-2 hover:text-black">
+        <div className="flex gap-2 items-center text-white cursor-pointer hover:bg-slate-200 rounded-lg p-2 hover:text-black">
           <SquarePlus onClick={() => router.push("/upload")} size={24} />
           {!isMobile && (
             <button

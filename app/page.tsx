@@ -60,7 +60,7 @@ export default function Home() {
   }, [router, session]);
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-black text-white min-h-screen">
       <div className="h-16">
         <Appbar />
       </div>
@@ -72,7 +72,7 @@ export default function Home() {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 md:ml-52 lg:ml-80 py-8 px-4 lg:px-10">
+        <div className="flex-1 md:ml-52 lg:ml-80  px- lg:px-10">
           {loading ? (
             <div className="text-center text-gray-700 text-lg">
               Loading moments...
@@ -80,7 +80,7 @@ export default function Home() {
           ) : error ? (
             <div className="text-center text-red-600 text-lg">{error}</div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-2 border-b">
               {moments.map((moment) => (
                 <MomentCard key={moment.id} moment={moment} />
               ))}

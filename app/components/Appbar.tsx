@@ -11,8 +11,8 @@ export default function Appbar() {
     const loggedInUserID = session?.user?.id || "";
 
     return (
-        <div className="h-16 flex fixed w-full items-center justify-between pr-4 pl-4 bg-white z-50 shadow-md">
-            <div className="text-black text-3xl font-bold">
+        <div className="h-16 flex fixed w-full border-b border-gray-300 items-center justify-between pr-4 pl-4 bg-black z-50 shadow-md">
+            <div className="text-white text-3xl font-bold">
                 Moments
             </div>
             <div>
@@ -21,7 +21,7 @@ export default function Appbar() {
                         src={loggedInUserAvatar} 
                         name={loggedInUserName} 
                         profileLink={`/${loggedInUserID}`} 
-                        size={36} 
+                        size={28} 
                         alt="Profile Picture" 
                     />
                 ) : (

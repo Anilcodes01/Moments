@@ -28,11 +28,11 @@ export default function MomentCard({ moment }: { moment: Moment }) {
       onClick={() => {
         router.push(`/moments/${moment.id}`);
       }}
-      className="w-full  max-w-xs mx-auto cursor-pointer p-4 bg-white rounded shadow-md"
+      className="w-full    cursor-pointer p-4 bg-black   "
     >
       {/* User Info */}
       {user && (
-        <div className="flex relative items-center mb-2">
+        <div className="flex relative  items-center mb-2">
           {user.avatarUrl ? (
             <Image
               src={user.avatarUrl}
@@ -42,16 +42,16 @@ export default function MomentCard({ moment }: { moment: Moment }) {
               className="rounded-full object-cover"
             />
           ) : (
-            <FaUserCircle className="text-gray-400" size={32} />
+            <FaUserCircle className="text-gray-200" size={32} />
           )}
-          <span className="ml-2 text-sm font-medium text-gray-800">
+          <span className="ml-2 text-sm  font-bold text-gray-200">
             {user.name}
           </span>
         </div>
       )}
 
       {/* Moment Image */}
-      <div className="relative border w-full h-40 rounded overflow-hidden">
+      <div className="relative   w-full h-40 rounded overflow-hidden">
         {imageUrl ? (
           <Image
             src={imageUrl}
@@ -59,6 +59,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
             layout="fill"
             objectFit="cover"
             quality={100}
+            
           />
         ) : (
           <div className="bg-gray-300 w-full h-full flex items-center justify-center">
@@ -69,7 +70,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
 
       {/* Caption */}
       <div className="mt-2 text-center text-sm text-gray-600">
-        {moment.caption || "No caption provided"}
+        {moment.caption}
       </div>
     </div>
   );
