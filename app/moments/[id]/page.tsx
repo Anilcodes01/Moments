@@ -69,8 +69,8 @@ const MomentPage = () => {
 
 
   return (
-    <div className="space-y-4 bg-white min-h-screen text-black p-4">
-      <h1 className="text-2xl border p-1 rounded-lg font-semibold">{moment.title}</h1>
+    <div className="space-y-4 bg-black min-h-screen text-gray-200 p-4">
+      <h1 className="text-2xl  p-1 rounded-lg font-semibold">{moment.title}</h1>
       <p>{moment.caption}</p>
       <div className="flex items-center space-x-4">
         <div className="flex items-center gap-2">
@@ -125,7 +125,7 @@ const MomentPage = () => {
               {media.caption && 
               <div>
                 <p className="mt-2">{media.caption}</p>
-                <p className="mt-1 text-xs text-gray-800">{formattedMediaDate}</p> {/* Display formatted media creation date */}
+                <p className="mt-1 text-xs text-gray-600">{formattedMediaDate}</p> {/* Display formatted media creation date */}
               </div>
               }
             </div>

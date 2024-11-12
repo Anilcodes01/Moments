@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { FaCloudUploadAlt } from "react-icons/fa";
 
 interface MomentSection {
   image: File | null;
@@ -12,6 +13,7 @@ interface MomentSection {
 }
 
 const CreateMoment = () => {
+  const [currentStep, setCurrentStep] = useState(1);
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -27,12 +29,15 @@ const CreateMoment = () => {
     setTitle(e.target.value);
   };
 
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleDescriptionChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setDescription(e.target.value);
   };
-  
 
-  const handleCoverImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCoverImageChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       setCoverImage(file);
@@ -40,7 +45,10 @@ const CreateMoment = () => {
     }
   };
 
-  const handleImageChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       const newMomentSections = [...momentSections];
@@ -50,7 +58,10 @@ const CreateMoment = () => {
     }
   };
 
-  const handleCaptionChange = (index: number, event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleCaptionChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const newMomentSections = [...momentSections];
     newMomentSections[index].caption = event.target.value;
     setMomentSections(newMomentSections);
@@ -69,13 +80,21 @@ const CreateMoment = () => {
     setMomentSections(newMomentSections);
   };
 
+  const handleNextStep = () => {
+    if (title && momentSections) {
+      setCurrentStep(2);
+    } else {
+      alert("Please fill all fields for the moment.");
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsSubmitting(true);
 
     const formData = new FormData();
     formData.append("title", title);
-    formData.append('description', description)
+    formData.append("description", description);
     if (coverImage) {
       formData.append("coverImage", coverImage);
     }
@@ -86,14 +105,14 @@ const CreateMoment = () => {
     });
 
     try {
-      const response = await axios.post('/api/moments', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      const response = await axios.post("/api/moments", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       if (response.data?.moment?.id) {
         router.push(`/moments/${response.data.moment.id}`);
       } else {
-        throw new Error('Moment ID not found');
+        throw new Error("Moment ID not found");
       }
     } catch (error) {
       console.error("Failed to create moment:", error);
@@ -104,111 +123,166 @@ const CreateMoment = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 min-h-screen bg-white text-black p-6">
-      <div className="mb-6">
-        <label htmlFor="title" className="block text-sm font-medium">
-          Title
-        </label>
-        <input
-          type="text"
-          id="title"
-          value={title}
-          onChange={handleTitleChange}
-          className="mt-1 block w-full p-2 border outline-none rounded-md text-black"
-          required
-        />
-      </div>
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-6 min-h-screen bg-black text-gray-200 p-6"
+    >
+      {currentStep === 1 ? (
+        <>
+          <div className="mb-6">
+            <label htmlFor="title" className="block text-sm font-medium">
+              Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              value={title}
+              onChange={handleTitleChange}
+              className="mt-1 block w-full p-2 border outline-none rounded-md text-black"
+              required
+            />
+          </div>
 
-      <div className="mb-6">
-  <label htmlFor="description" className="block text-sm font-medium">
-    Description
-  </label>
-  <textarea
-    id="description"
-    value={description}
-    onChange={handleDescriptionChange}
-    className="mt-1 block w-full p-2 border outline-none rounded-md text-black"
-    rows={3}
-    placeholder="Write a short description of your moment..."
-    required
-  />
-</div>
+          {momentSections.map((section, index) => (
+            <div key={index} className="flex flex-col gap-6 mb-6">
+              <div>
+                <div className="flex justify-between">
+                  <label className="block text-sm font-medium mb-2">
+                    Image
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveMomentSection(index)}
+                    className="self-start px-2 bg-red-500 text-white rounded-full hover:bg-red-600"
+                  >
+                    ×
+                  </button>
+                </div>
 
+                {/* Hidden File Input */}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageChange(index, e)}
+                  className="hidden"
+                  id={`imageUpload-${index}`}
+                />
 
-      <div className="mb-6">
-        <label className="block text-sm font-medium mb-2">Cover Image</label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleCoverImageChange}
-          className="block w-full p-2 border rounded-md text-black"
-        />
-        {coverPreviewUrl && (
-          <Image
-            src={coverPreviewUrl}
-            alt="Cover Image Preview"
-            width={800}
-            height={200}
-            className="mt-2 w-full h-[200px] object-cover rounded-lg"
-          />
-        )}
-      </div>
+                {/* Clickable Icon to Trigger File Input */}
+                <div
+                  className="flex items-center justify-center w-full p-4 border border-dashed rounded-md cursor-pointer text-gray-200 hover:text-gray-400"
+                  onClick={() =>
+                    document.getElementById(`imageUpload-${index}`)?.click()
+                  }
+                >
+                  <FaCloudUploadAlt size={40} className="mr-2" />
+                  <span>Upload Image</span>
+                </div>
 
-      {momentSections.map((section, index) => (
-        <div key={index} className="flex flex-col gap-6 mb-6">
-          <div>
-            <div className="flex justify-between">
-              <label className="block text-sm font-medium mb-2">Image</label>
-              <button
-                type="button"
-                onClick={() => handleRemoveMomentSection(index)}
-                className="self-start px-2 bg-red-500 text-white rounded-full hover:bg-red-600"
-              >
-                ×
-              </button>
+                {/* Image Preview */}
+                {section.previewUrl && (
+                  <Image
+                    src={section.previewUrl}
+                    alt="Image Preview"
+                    width={800}
+                    height={200}
+                    className="mt-2 w-full h-[200px] object-cover rounded-lg"
+                  />
+                )}
+              </div>
+
+              {/* Caption Textarea */}
+              <textarea
+                value={section.caption}
+                onChange={(e) => handleCaptionChange(index, e)}
+                className="block w-full p-2 outline-none rounded-md text-black"
+                rows={3}
+                placeholder="Write something about the image..."
+                required
+              ></textarea>
             </div>
+          ))}
+
+          <button
+            type="button"
+            onClick={handleAddMomentSection}
+            className="px-2 bg-blue-400 text-white items-center text-center font-semibold rounded-full hover:bg-gray-400 mb-6"
+          >
+            +
+          </button>
+
+          <button
+            type="submit"
+            onClick={handleNextStep}
+            className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700"
+          >
+            Next
+          </button>
+        </>
+      ) : (
+        <>
+          <div className="mb-6">
+            <label className="block text-sm font-medium mb-2">
+              Cover Image
+            </label>
+
+            {/* Hidden File Input */}
             <input
               type="file"
               accept="image/*"
-              onChange={(e) => handleImageChange(index, e)}
-              className="block w-full p-2 border rounded-md text-black"
+              onChange={handleCoverImageChange}
+              className="hidden"
+              id="coverImageUpload"
             />
-            {section.previewUrl && (
+
+            {/* Clickable Icon to Trigger File Input */}
+            <div
+              className="flex items-center justify-center w-full p-4 border border-dashed rounded-md cursor-pointer text-gray-200 hover:text-gray-400"
+              onClick={() =>
+                document.getElementById("coverImageUpload")?.click()
+              }
+            >
+              <FaCloudUploadAlt size={40} className="mr-2" />
+              <span>Upload Cover Image</span>
+            </div>
+
+            {/* Image Preview */}
+            {coverPreviewUrl && (
               <Image
-                src={section.previewUrl}
-                alt="Image Preview"
+                src={coverPreviewUrl}
+                alt="Cover Image Preview"
                 width={800}
                 height={200}
                 className="mt-2 w-full h-[200px] object-cover rounded-lg"
               />
             )}
           </div>
-          <textarea
-            value={section.caption}
-            onChange={(e) => handleCaptionChange(index, e)}
-            className="block w-full p-2 outline-none rounded-md text-black"
-            rows={3}
-            placeholder="Write something about the image..."
-            required
-          ></textarea>
-        </div>
-      ))}
 
-      <button
-        type="button"
-        onClick={handleAddMomentSection}
-        className="px-2 bg-blue-400 text-white items-center text-center font-semibold rounded-full hover:bg-gray-400 mb-6"
-      >
-        +
-      </button>
+          <div className="mb-6">
+            <label htmlFor="description" className="block text-sm font-medium">
+              Description
+            </label>
+            <textarea
+              id="description"
+              value={description}
+              onChange={handleDescriptionChange}
+              className="mt-1 block w-full p-2 border outline-none rounded-md text-gray-200"
+              rows={3}
+              placeholder="Write a short description of your moment..."
+              required
+            />
+          </div>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700"
-      >
-        {isSubmitting ? "Uploading..." : "Create Moment"}
-      </button>
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Creating" : "Create Moment"}
+          </button>
+        </>
+      )}
     </form>
   );
 };
