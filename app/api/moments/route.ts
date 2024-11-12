@@ -21,6 +21,7 @@ export async function POST(request: Request) {
 
     const formData = await request.formData();
     const title = formData.get("title") as string;
+    const description = formData.get("description") as string ; // New description field
     const coverImageFile = formData.get("coverImage") as File | null;
 
     let coverImageUrl = "";
@@ -39,6 +40,7 @@ export async function POST(request: Request) {
     const moment = await prisma.moment.create({
       data: {
         title,
+        description,  // Save the description
         coverImage: coverImageUrl,
         userId: session.user.id,
       },
@@ -47,7 +49,6 @@ export async function POST(request: Request) {
     const mediaPromises = Array.from(formData.entries())
       .filter(([key]) => key.startsWith("media_"))
       .map(async ([key, value], index) => {
-        console.log(key)
         const file = value as File;
         const buffer = await file.arrayBuffer();
         const base64 = Buffer.from(buffer).toString("base64");
@@ -81,6 +82,7 @@ export async function POST(request: Request) {
     );
   }
 }
+
 
 
 

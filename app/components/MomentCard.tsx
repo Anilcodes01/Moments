@@ -14,7 +14,7 @@ interface Moment {
   id: string;
   coverImage?: string;
   media?: { url: string }[];
-  caption?: string;
+  description?: string;
   user?: User;
 }
 
@@ -70,7 +70,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
 
       {/* Caption */}
       <div className="mt-2 text-center text-sm text-gray-600">
-        {moment.caption}
+        {moment.description}
       </div>
     </div>
   );

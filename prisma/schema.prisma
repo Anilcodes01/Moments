@@ -29,7 +29,7 @@ model User {
 model Moment {
   id          String   @id @default(uuid())
   title       String
-  caption     String?
+  description     String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt()
   coverImage  String   

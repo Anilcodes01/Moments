@@ -14,6 +14,8 @@ interface MomentSection {
 const CreateMoment = () => {
   const router = useRouter();
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [coverPreviewUrl, setCoverPreviewUrl] = useState<string | null>(null);
   const [momentSections, setMomentSections] = useState<MomentSection[]>([
@@ -24,6 +26,11 @@ const CreateMoment = () => {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
+
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setDescription(e.target.value);
+  };
+  
 
   const handleCoverImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -68,6 +75,7 @@ const CreateMoment = () => {
 
     const formData = new FormData();
     formData.append("title", title);
+    formData.append('description', description)
     if (coverImage) {
       formData.append("coverImage", coverImage);
     }
@@ -110,6 +118,22 @@ const CreateMoment = () => {
           required
         />
       </div>
+
+      <div className="mb-6">
+  <label htmlFor="description" className="block text-sm font-medium">
+    Description
+  </label>
+  <textarea
+    id="description"
+    value={description}
+    onChange={handleDescriptionChange}
+    className="mt-1 block w-full p-2 border outline-none rounded-md text-black"
+    rows={3}
+    placeholder="Write a short description of your moment..."
+    required
+  />
+</div>
+
 
       <div className="mb-6">
         <label className="block text-sm font-medium mb-2">Cover Image</label>

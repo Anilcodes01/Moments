@@ -10,7 +10,7 @@ export const GET = async () => {
       select: {
         id: true,
         coverImage: true,
-        caption: true,
+        description: true,
         user: {
           select: {
             id: true,
