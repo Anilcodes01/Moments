@@ -68,9 +68,9 @@ export default function Profile() {
 
 
 
-     <div className="pl-4 pr-4">
+     <div className="">
        {/* User Avatar and Name */}
-       <div className="flex flex-col ">
+       <div className="flex flex-col pl-2 pr-2 ">
         <div className=" p-1 flex  items-center gap-2  ">
           {user?.avatarUrl ? (
             <Image
@@ -108,7 +108,7 @@ export default function Profile() {
       </div>
 
       {/* Moment Filters */}
-      <div className="flex mt-8 gap-4 w-full max-w-lg border-b border-gray-300 pb-2 justify-around">
+      <div className="flex mt-8 gap-4 w-full max-w-lg border-b border-gray-500 pb-2 justify-around">
         <button className=" text-gray-300 hover:text-gray-800 focus:text-blue-600  focus:border-blue-600 transition">
           Shared
         </button>
@@ -121,7 +121,7 @@ export default function Profile() {
       </div>
 
       {/* Moment Cards */}
-      <div className="mt-2 w-full max-w-4xl grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="mt-2 w-full max-w-4xl pl-2 pr-2 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {user?.moments?.length ? (
           user.moments.map((moment) => (
             <MomentProfileCard key={moment.id} moment={moment} />
@@ -134,7 +134,7 @@ export default function Profile() {
       </div>
      </div>
 
-     <div className="md:hidden h-12  fixed bottom-0 w-full bg-black  shadow-md border-t border-gray-200">
+     <div className="md:hidden h-12  fixed bottom-0 w-full bg-black  shadow-md border-t border-gray-500">
         <Sidebar isMobile={true} />
       </div>
     </div>

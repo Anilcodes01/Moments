@@ -11,8 +11,8 @@ export default function Appbar() {
     const loggedInUserID = session?.user?.id || "";
 
     return (
-        <div className="h-16 flex fixed w-full border-b border-gray-300 items-center justify-between pr-4 pl-4 bg-black z-50 shadow-md">
-            <div className="text-white text-3xl font-bold">
+        <div className="h-12 flex fixed w-full border-b border-gray-500 items-center justify-between pr-4 pl-4 bg-black z-50 shadow-md">
+            <div className="text-white text-2xl font-bold">
                 Moments
             </div>
             <div>

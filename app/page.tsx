@@ -80,7 +80,7 @@ export default function Home() {
           ) : error ? (
             <div className="text-center text-red-600 text-lg">{error}</div>
           ) : (
-            <div className="space-y-2 border-b">
+            <div className="space-y-2 border-b border-gray-500">
               {moments.map((moment) => (
                 <MomentCard key={moment.id} moment={moment} />
               ))}
@@ -90,7 +90,7 @@ export default function Home() {
       </div>
 
       {/* Mobile Bottom Navbar */}
-      <div className="md:hidden fixed bottom-0 w-full bg-white shadow-md border-t border-gray-200">
+      <div className="md:hidden h-12 fixed bottom-0 w-full bg-white  border-t border-gray-500">
         <Sidebar isMobile={true} />
       </div>
     </div>
