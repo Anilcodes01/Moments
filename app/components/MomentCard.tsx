@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FaUserCircle } from "react-icons/fa";
+import { Ellipsis } from "lucide-react";
 
 interface User {
   id: string;
@@ -24,34 +25,43 @@ export default function MomentCard({ moment }: { moment: Moment }) {
   const user = moment.user;
 
   return (
-    <div
-      onClick={() => {
-        router.push(`/moments/${moment.id}`);
-      }}
-      className="w-full    cursor-pointer p-4 bg-black   "
-    >
+    <div className="w-full border-b mt-2  border-gray-500   cursor-pointer  bg-black   ">
       {/* User Info */}
       {user && (
-        <div className="flex relative  items-center mb-2">
-          {user.avatarUrl ? (
-            <Image
-              src={user.avatarUrl}
-              alt={`${user.name}'s avatar`}
-              width={32}
-              height={32}
-              className="rounded-full object-cover"
+        <div className="flex  justify-between    py-2 px-2">
+          <div className="flex items-center">
+            {user.avatarUrl ? (
+              <Image
+                src={user.avatarUrl}
+                alt={`${user.name}'s avatar`}
+                width={32}
+                height={32}
+                className="rounded-full object-cover"
+              />
+            ) : (
+              <FaUserCircle className="text-gray-200" size={32} />
+            )}
+            <span className="ml-2 text-sm  font-bold text-gray-200">
+              {user.name}
+            </span>
+          </div>
+          <div>
+            <Ellipsis
+              onClick={() => {
+                router.push("#");
+              }}
             />
-          ) : (
-            <FaUserCircle className="text-gray-200" size={32} />
-          )}
-          <span className="ml-2 text-sm  font-bold text-gray-200">
-            {user.name}
-          </span>
+          </div>
         </div>
       )}
 
       {/* Moment Image */}
-      <div className="relative   w-full h-40 rounded overflow-hidden">
+      <div
+        onClick={() => {
+          router.push(`/moments/${moment.id}`);
+        }}
+        className="relative   w-full h-48  overflow-hidden"
+      >
         {imageUrl ? (
           <Image
             src={imageUrl}
@@ -59,7 +69,6 @@ export default function MomentCard({ moment }: { moment: Moment }) {
             layout="fill"
             objectFit="cover"
             quality={100}
-            
           />
         ) : (
           <div className="bg-gray-300 w-full h-full flex items-center justify-center">
@@ -69,8 +78,9 @@ export default function MomentCard({ moment }: { moment: Moment }) {
       </div>
 
       {/* Caption */}
-      <div className="mt-2 text-center text-sm text-gray-600">
-        {moment.description}
+      <div className="mt-4 ml-4 mb-4 text-gray-200 text-sm">
+        <span className="font-bold mr-2">{moment.user?.name}</span>
+        <span className="break-words">{moment.description}</span>
       </div>
     </div>
   );

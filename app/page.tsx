@@ -18,6 +18,7 @@ interface Moment {
   id: string;
   title?: string;
   caption?: string;
+  description?: string; // Ensure you add this to access the description
   createdAt?: string;
   coverImage?: string;
   media?: { url: string }[];
@@ -60,27 +61,26 @@ export default function Home() {
   }, [router, session]);
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="bg-black text-white min-h-screen flex flex-col">
+      {/* Appbar */}
       <div className="h-16">
         <Appbar />
       </div>
 
-      <div className="flex flex-col md:flex-row">
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         {/* Sidebar for Desktop */}
-        <div className="hidden md:block fixed w-52 lg:w-80 h-full bg-white shadow-md">
+        <div className="hidden md:block w-52 lg:w-80 bg-white shadow-md h-full">
           <Sidebar />
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 md:ml-52 lg:ml-80  px- lg:px-10">
+        <div className="flex-1 overflow-auto md:ml-52 lg:ml-80 pl-4 pr-4 mb-12 lg:px-10">
           {loading ? (
-            <div className="text-center text-gray-700 text-lg">
-              Loading moments...
-            </div>
+            <div className="text-center text-gray-700 text-lg">Loading moments...</div>
           ) : error ? (
             <div className="text-center text-red-600 text-lg">{error}</div>
           ) : (
-            <div className="space-y-2 border-b border-gray-500">
+            <div className="border-b  border-gray-500">
               {moments.map((moment) => (
                 <MomentCard key={moment.id} moment={moment} />
               ))}
@@ -90,7 +90,7 @@ export default function Home() {
       </div>
 
       {/* Mobile Bottom Navbar */}
-      <div className="md:hidden h-12 fixed bottom-0 w-full bg-white  border-t border-gray-500">
+      <div className="md:hidden h-12 fixed bottom-0 w-full bg-white border-t border-gray-500">
         <Sidebar isMobile={true} />
       </div>
     </div>
