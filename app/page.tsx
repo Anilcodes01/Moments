@@ -4,6 +4,8 @@ import Appbar from "./components/Appbar";
 import axios from "axios";
 import MomentCard from "./components/MomentCard";
 import Sidebar from "./components/sidebar";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface User {
   id: string;
@@ -27,7 +29,14 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const { data: session } = useSession();
+  const router = useRouter();
+
   useEffect(() => {
+    if (!session) {
+      router.push("/info");
+    }
+
     const fetchMoments = async () => {
       try {
         setLoading(true);
