@@ -4,7 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { FaCloudUploadAlt } from "react-icons/fa";
+import { FaCloudUploadAlt, FaEdit } from "react-icons/fa";
 
 interface MomentSection {
   image: File | null;
@@ -125,20 +125,18 @@ const CreateMoment = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 min-h-screen bg-black text-gray-200 p-6"
+      className="space-y-6 min-h-screen bg-zinc-950 text-gray-200 p-6 pt-16"
     >
       {currentStep === 1 ? (
         <>
           <div className="mb-6">
-            <label htmlFor="title" className="block text-sm font-medium">
-              Title
-            </label>
             <input
               type="text"
               id="title"
               value={title}
               onChange={handleTitleChange}
-              className="mt-1 block w-full p-2 border outline-none rounded-md text-black"
+              placeholder="Title..."
+              className="mt-1 block w-full font-bold text-2xl bg-zinc-950 outline-none rounded-md text-gray-400"
               required
             />
           </div>
@@ -150,16 +148,17 @@ const CreateMoment = () => {
                   <label className="block text-sm font-medium mb-2">
                     Image
                   </label>
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveMomentSection(index)}
-                    className="self-start px-2 bg-red-500 text-white rounded-full hover:bg-red-600"
-                  >
-                    ×
-                  </button>
+                  {index !== 0 && (
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveMomentSection(index)}
+                      className="self-start px-2 bg-red-500 text-white rounded-full hover:bg-red-600"
+                    >
+                      ×
+                    </button>
+                  )}
                 </div>
 
-                {/* Hidden File Input */}
                 <input
                   type="file"
                   accept="image/*"
@@ -168,34 +167,42 @@ const CreateMoment = () => {
                   id={`imageUpload-${index}`}
                 />
 
-                {/* Clickable Icon to Trigger File Input */}
-                <div
-                  className="flex items-center justify-center w-full p-4 border border-dashed rounded-md cursor-pointer text-gray-200 hover:text-gray-400"
-                  onClick={() =>
-                    document.getElementById(`imageUpload-${index}`)?.click()
-                  }
-                >
-                  <FaCloudUploadAlt size={40} className="mr-2" />
-                  <span>Upload Image</span>
-                </div>
-
-                {/* Image Preview */}
-                {section.previewUrl && (
-                  <Image
-                    src={section.previewUrl}
-                    alt="Image Preview"
-                    width={800}
-                    height={200}
-                    className="mt-2 w-full h-[200px] object-cover rounded-lg"
-                  />
+                {section.previewUrl ? (
+                  <div className="relative">
+                    <Image
+                      src={section.previewUrl}
+                      alt="Image Preview"
+                      width={800}
+                      height={200}
+                      className="mt-2 w-full h-[200px] object-cover rounded-lg"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        document.getElementById(`imageUpload-${index}`)?.click()
+                      }
+                      className="absolute top-2 right-2 p-1 bg-gray-800 text-white rounded-full"
+                    >
+                      <FaEdit />
+                    </button>
+                  </div>
+                ) : (
+                  <div
+                    className="flex items-center justify-center w-full p-4 border border-dashed rounded-md cursor-pointer text-gray-200 hover:text-gray-400"
+                    onClick={() =>
+                      document.getElementById(`imageUpload-${index}`)?.click()
+                    }
+                  >
+                    <FaCloudUploadAlt size={40} className="mr-2" />
+                    <span>Upload Image</span>
+                  </div>
                 )}
               </div>
 
-              {/* Caption Textarea */}
               <textarea
                 value={section.caption}
                 onChange={(e) => handleCaptionChange(index, e)}
-                className="block w-full p-2 outline-none rounded-md text-black"
+                className="block w-full p-2 bg-zinc-950 outline-none  rounded-md text-gray-400"
                 rows={3}
                 placeholder="Write something about the image..."
                 required
@@ -225,8 +232,6 @@ const CreateMoment = () => {
             <label className="block text-sm font-medium mb-2">
               Cover Image
             </label>
-
-            {/* Hidden File Input */}
             <input
               type="file"
               accept="image/*"
@@ -234,8 +239,6 @@ const CreateMoment = () => {
               className="hidden"
               id="coverImageUpload"
             />
-
-            {/* Clickable Icon to Trigger File Input */}
             <div
               className="flex items-center justify-center w-full p-4 border border-dashed rounded-md cursor-pointer text-gray-200 hover:text-gray-400"
               onClick={() =>
@@ -245,8 +248,6 @@ const CreateMoment = () => {
               <FaCloudUploadAlt size={40} className="mr-2" />
               <span>Upload Cover Image</span>
             </div>
-
-            {/* Image Preview */}
             {coverPreviewUrl && (
               <Image
                 src={coverPreviewUrl}
@@ -258,28 +259,22 @@ const CreateMoment = () => {
             )}
           </div>
 
-          <div className="mb-6">
-            <label htmlFor="description" className="block text-sm font-medium">
-              Description
-            </label>
-            <textarea
-              id="description"
-              value={description}
-              onChange={handleDescriptionChange}
-              className="mt-1 block w-full p-2 border outline-none rounded-md text-gray-200"
-              rows={3}
-              placeholder="Write a short description of your moment..."
-              required
-            />
-          </div>
+          <textarea
+            id="description"
+            value={description}
+            onChange={handleDescriptionChange}
+            className="block w-full p-2 bg-zinc-950 outline-none rounded-md text-gray-400"
+            rows={4}
+            placeholder="Describe your moment..."
+            required
+          ></textarea>
 
           <button
-            type="button"
-            onClick={handleSubmit}
-            className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700"
+            type="submit"
             disabled={isSubmitting}
+            className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700"
           >
-            {isSubmitting ? "Creating" : "Create Moment"}
+            {isSubmitting ? "Creating..." : "Create Moment"}
           </button>
         </>
       )}

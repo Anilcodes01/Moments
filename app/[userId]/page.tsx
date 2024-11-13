@@ -46,7 +46,7 @@ export default function Profile() {
   }, [userId]);
 
   return (
-    <div className="bg-black text-gray-100 w-full flex flex-col   min-h-screen">
+    <div className="bg-zinc-950 text-gray-100 w-full flex flex-col   min-h-screen">
 
 <div className="hidden md:block bg-black fixed w-52 lg:w-80 h-full shadow-md">
           <Sidebar />

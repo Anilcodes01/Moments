@@ -34,9 +34,7 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!session) {
-      router.push("/info");
-    }
+   
 
     const fetchMoments = async () => {
       try {
@@ -61,7 +59,7 @@ export default function Home() {
   }, [router, session]);
 
   return (
-    <div className="bg-black text-white min-h-screen flex flex-col">
+    <div className="bg-zinc-950 text-white min-h-screen flex flex-col">
       {/* Appbar */}
       <div className="h-16">
         <Appbar />
