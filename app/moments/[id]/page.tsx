@@ -97,9 +97,9 @@ const MomentPage = () => {
                 <Image
                   src={moment.user.avatarUrl}
                   alt="user avatar"
-                  width={20}
-                  height={20}
-                  className="w-10 h-10 rounded-full overflow-hidden"
+                  width={96}
+                  height={96}
+                  className="w-10 h-10 rounded-full object-cover overflow-hidden"
                 />
               ) : (
                 <FaUserCircle className="h-10 w-10 text-gray-300" />
