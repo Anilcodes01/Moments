@@ -46,7 +46,7 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
 
   return (
     <div
-      className={`bg-zinc-950 ${
+      className={`bg-gray-950 ${
         isMobile ? "w-full flex-row  justify-around" : "w-full flex-col"
       } flex items-center h-full md:h-screen text-black`}
     >

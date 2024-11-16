@@ -73,7 +73,7 @@ export default function Home() {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 overflow-auto md:ml-52 lg:ml-80 pl-4 pr-4 mb-16 lg:px-10">
+        <div className="flex-1 overflow-auto  md:ml-52 lg:ml-80 pl-4 pr-4 mb-16 lg:px-10">
           {loading ? (
             <div className="text-center text-gray-700 text-lg">
               <MomentSkeleton />
@@ -81,7 +81,7 @@ export default function Home() {
           ) : error ? (
             <div className="text-center text-red-600 text-lg">{error}</div>
           ) : (
-            <div className="border-b  border-gray-500">
+            <div className="  ">
               {moments.map((moment) => (
                 <MomentCard key={moment.id} moment={moment} />
               ))}
