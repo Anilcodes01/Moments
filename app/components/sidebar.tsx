@@ -1,7 +1,6 @@
 "use client";
 import { GoHome } from "react-icons/go";
 import { GoBookmark } from "react-icons/go";
-import { FaUserCircle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -10,6 +9,7 @@ import axios from "axios";
 import { Search } from "lucide-react";
 import { SquarePlus } from "lucide-react";
 import Link from "next/link";
+import { BookOpenText } from 'lucide-react';
 
 interface UserProfile {
   id: string;
@@ -47,7 +47,7 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
   return (
     <div
       className={`bg-gray-950 ${
-        isMobile ? "w-full flex-row items-center justify-around" : "w-full flex-col"
+        isMobile ? "w-full flex-row items-center justify-around" : "w-full border-r  flex-col"
       } flex items-center h-full md:h-screen text-black`}
     >
       {/* Navigation buttons */}
@@ -59,7 +59,7 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
         }`}
       >
        <Link href={"/"}>
-  <div className="flex gap-2  items-center justify-center text-white cursor-pointer rounded-lg p-2 hover:text-white">
+  <div className="flex gap-2 hover:lg:bg-gray-400 hover:md:bg-gray-400  items-center justify-center text-white cursor-pointer rounded-lg p-2 hover:text-white">
     <GoHome size={24} className="flex-shrink-0" />
     {!isMobile && (
       <button
@@ -72,30 +72,30 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
   </div>
 </Link>
 
-        <div className="flex gap-2 hover:text-white items-center text-white cursor-pointer  rounded-lg p-2 ">
+        <div className="flex gap-2 hover:lg:bg-gray-400 hover:md:bg-gray-400 hover:text-white items-center text-white cursor-pointer  rounded-lg p-2 ">
           <Search size={24} />
           {!isMobile && <button className="text-xl">Search</button>}
         </div>
-        <div className="flex gap-2 items-center text-white cursor-pointer  rounded-lg p-2 ">
+        <div className="flex gap-2 hover:lg:bg-gray-400 hover:md:bg-gray-400 items-center text-white cursor-pointer  rounded-lg p-2 ">
           <SquarePlus onClick={() => router.push("/upload")} size={24} />
           {!isMobile && (
             <button
               onClick={() => router.push("/network")}
               className="text-xl w-full flex items-center"
             >
-              Network
+              Post
             </button>
           )}
         </div>
 
         {!isMobile ? (
-          <div className="flex gap-2 items-center cursor-pointer hover:bg-slate-600 rounded-lg p-2 ">
-            <GoBookmark onClick={() => router.push("/bookmarks")} size={24} />
+          <div className="flex gap-2 text-white items-center cursor-pointer hover:bg-slate-600 rounded-lg p-2 ">
+            <BookOpenText onClick={() => router.push("/bookmarks")} size={24} />
             <button
               onClick={() => router.push("/bookmarks")}
               className="text-xl w-full flex items-start"
             >
-              Bookmarks
+              Stories
             </button>
           </div>
         ) : (
@@ -121,30 +121,7 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
         )}
       </div>
 
-      {/* User profile */}
-      {!isMobile && (
-        <div className="text-black w-full mt-auto p-4 flex flex-col gap-2">
-          <div
-            onClick={() => router.push(`/${userId}`)}
-            className="flex gap-2 items-center bg-slate-100 p-2 cursor-pointer hover:bg-slate-200 rounded-lg hover:text-black"
-          >
-            <div>
-              {session?.user.avatarUrl ? (
-                <Image
-                  src={session.user.avatarUrl}
-                  alt="User Profile Picture"
-                  width={32}
-                  height={32}
-                  className="rounded-full cursor-pointer border"
-                />
-              ) : (
-                <FaUserCircle size={32} className="text-gray-500" />
-              )}
-            </div>
-            <button className="text-xl text-black">{userProfile?.name}</button>
-          </div>
-        </div>
-      )}
+     
     </div>
   );
 }

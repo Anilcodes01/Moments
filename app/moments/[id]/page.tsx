@@ -7,7 +7,6 @@ import Image from "next/image";
 import MainMomentSkeleton from "@/app/components/MainMomentSkeleton";
 import Appbar from "@/app/components/Appbar";
 import Sidebar from "@/app/components/sidebar";
-// import MomentUpdateForm from "@/app/components/MomentUpdateForm";
 
 type Media = {
   id: string;
@@ -76,98 +75,103 @@ const MomentPage = () => {
   if (!moment) return <p>Moment not found.</p>;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 mb-12 to-pink-50">
       <div className="h-12">
         <Appbar />
       </div>
 
-      <div className="hidden md:block w-52 lg:w-80 bg-white shadow-md h-full">
+      <div className="lg:flex md:flex flex-1 flex flex-col md:flex-row overflow-hidden">
+        {/* Sidebar for larger screens */}
+        <div className="hidden md:block w-52 lg:w-80 bg-white shadow-md h-full">
           <Sidebar />
         </div>
 
+        {/* Main content */}
+        <div className="flex-1 bg-white lg:rounded-lg lg:shadow-md lg:m-10 p-6 lg:p-10 space-y-6 text-gray-800">
+          <h1 className="text-3xl font-bold text-gray-900">{moment.title}</h1>
+          <p className="text-lg text-gray-700">{moment.caption}</p>
 
-
-      <div className="space-y-4 mb-12 bg-gray-950 min-h-screen text-gray-200 p-4">
-        <h1 className="text-2xl   rounded-lg font-semibold">{moment.title}</h1>
-        <p>{moment.caption}</p>
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center gap-2">
-            <div onClick={() => router.push(`/${moment.user.id}`)}>
-              {moment.user.avatarUrl ? (
-                <Image
-                  src={moment.user.avatarUrl}
-                  alt="user avatar"
-                  width={96}
-                  height={96}
-                  className="w-10 h-10 rounded-full object-cover overflow-hidden"
-                />
-              ) : (
-                <FaUserCircle className="h-10 w-10 text-gray-300" />
-              )}
-            </div>
-            <div>
-              <p
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center gap-4">
+              <div
+                className="cursor-pointer"
                 onClick={() => router.push(`/${moment.user.id}`)}
-                className="font-semibold text-sm"
               >
-                {moment.user.name}
-              </p>
-              <p
-                onClick={() => router.push(`/${moment.user.id}`)}
-                className="text-xs text-gray-500"
-              >
-                @{moment.user.username}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="mt-4"></div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-          {moment.media.map((media) => {
-            const formattedMediaDate = new Date(
-              media.createdAt
-            ).toLocaleDateString("en-US", {
-              weekday: "long",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            });
-
-            return (
-              <div key={media.id} className="relative">
-                {media.type === "PHOTO" ? (
+                {moment.user.avatarUrl ? (
                   <Image
-                    src={media.url}
-                    height={200}
-                    alt={media.caption}
-                    width={200}
-                    className="w-full h-48 border object-cover rounded-lg"
+                    src={moment.user.avatarUrl}
+                    alt="user avatar"
+                    width={96}
+                    height={96}
+                    className="w-12 h-12 rounded-full object-cover overflow-hidden border"
                   />
                 ) : (
-                  <video
-                    src={media.url}
-                    controls
-                    className="w-full h-48 object-cover rounded-lg"
-                  />
-                )}
-                {media.caption && (
-                  <div>
-                    <p className="mt-2">{media.caption}</p>
-                    <p className="mt-1 text-xs text-gray-600">
-                      {formattedMediaDate}
-                    </p>{" "}
-                    {/* Display formatted media creation date */}
-                  </div>
+                  <FaUserCircle className="h-12 w-12 text-gray-300" />
                 )}
               </div>
-            );
-          })}
+              <div>
+                <p
+                  onClick={() => router.push(`/${moment.user.id}`)}
+                  className="font-semibold text-lg cursor-pointer"
+                >
+                  {moment.user.name}
+                </p>
+                <p
+                  onClick={() => router.push(`/${moment.user.id}`)}
+                  className="text-sm text-gray-500 cursor-pointer"
+                >
+                  @{moment.user.username}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {moment.media.map((media) => {
+              const formattedMediaDate = new Date(
+                media.createdAt
+              ).toLocaleDateString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              });
+
+              return (
+                <div key={media.id} className="relative bg-white shadow-md rounded-lg overflow-hidden">
+                  {media.type === "PHOTO" ? (
+                    <Image
+                      src={media.url}
+                      height={200}
+                      alt={media.caption}
+                      width={200}
+                      className="w-full h-48 object-cover"
+                    />
+                  ) : (
+                    <video
+                      src={media.url}
+                      controls
+                      className="w-full h-48 object-cover"
+                    />
+                  )}
+                  {media.caption && (
+                    <div className="p-4">
+                      <p className="text-sm text-gray-800">{media.caption}</p>
+                      <p className="mt-1 text-xs text-gray-500">
+                        {formattedMediaDate}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
-        {/* <MomentUpdateForm moment={moment}/> */}
-      </div>
-      <div className="md:hidden h-12 fixed bottom-0 w-full bg-white border-t border-gray-500">
-        <Sidebar isMobile={true} />
+        {/* Mobile Sidebar */}
+        <div className="md:hidden h-12 fixed bottom-0 w-full bg-white border-t border-gray-500">
+          <Sidebar isMobile={true} />
+        </div>
       </div>
     </div>
   );

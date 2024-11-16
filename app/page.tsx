@@ -62,18 +62,18 @@ export default function Home() {
   return (
     <div className="bg-gray-950 text-white min-h-screen flex flex-col">
       {/* Appbar */}
-      <div className="h-16">
+      <div className="h-12">
         <Appbar />
       </div>
 
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         {/* Sidebar for Desktop */}
-        <div className="hidden md:block w-52 lg:w-80 bg-white shadow-md h-full">
+        <div className="hidden md:block w-52  lg:w-80  shadow-md h-full">
           <Sidebar />
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 overflow-auto  md:ml-52 lg:ml-80 pl-4 pr-4 mb-16 lg:px-10">
+        <div className="flex-1 overflow-auto   pl-4 pr-4 mb-16 lg:px-10">
           {loading ? (
             <div className="text-center text-gray-700 text-lg">
               <MomentSkeleton />
