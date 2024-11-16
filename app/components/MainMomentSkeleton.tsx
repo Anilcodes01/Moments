@@ -16,7 +16,7 @@ export default function MainMomentSkeleton() {
                 <div className="h-12 bg-gray-200 rounded-lg w-48"></div>
             </div>
             <div>
-                <div className="rounded-lg h-48 w-full bg-gray-800 mt-6"></div>
+                <div className="rounded-lg h-48 w-full bg-gray-200 mt-6"></div>
                 <div className="mt-4 flex flex-col gap-2">
                     <div className="h-6 w-full bg-gray-200 rounded"></div>
                     <div className="h-6 w-full bg-gray-200 rounded"></div>

@@ -50,7 +50,7 @@ export default function Profile() {
   }, [userId]);
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-purple-50 mb-12 to-pink-52 text-gray-100 w-full flex flex-col   min-h-screen">
+    <div className="bg-gradient-to-br from-blue-50 via-purple-50 mb-12 to-pink-50 text-gray-100 w-full flex flex-col   min-h-screen">
 
 <div className="hidden md:block bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 fixed w-52 lg:w-80 h-full shadow-md">
           <Sidebar />
@@ -89,7 +89,7 @@ export default function Profile() {
               className="rounded-full h-20 w-20 p-1 mt-4 object-cover"
             />
           ) : (
-            <FaUserCircle className="h-24 w-24 mt-4  text-gray-800" />
+            <FaUserCircle className="h-24 w-24 mt-4  text-gray-200" />
           )}
 
           <div className="flex justify-between p-4 mt-4 w-full max-w-lg">
