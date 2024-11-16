@@ -1,6 +1,5 @@
 "use client";
 import { GoHome } from "react-icons/go";
-import { GoBookmark } from "react-icons/go";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -23,6 +22,7 @@ interface UserProfile {
 
 export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  console.log(userProfile)
   const router = useRouter();
   const { data: session } = useSession();
 
