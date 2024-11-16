@@ -50,7 +50,7 @@ export default function Profile() {
   }, [userId]);
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-purple-50 mb-12 to-pink-50 text-gray-100 w-full flex flex-col   min-h-screen">
+    <div className="bg-gradient-to-br from-blue-50 via-purple-50 mb-12 to-pink-52 text-gray-100 w-full flex flex-col   min-h-screen">
 
 <div className="hidden md:block bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 fixed w-52 lg:w-80 h-full shadow-md">
           <Sidebar />
@@ -62,7 +62,7 @@ export default function Profile() {
         </div>
         <div className="text-gray-800 font-bold ">
         {loading ? (
-            <div className="animate-pulse bg-gray-800 h-6 w-24 rounded"></div>
+            <div className="animate-pulse bg-gray-200 h-6 w-24 rounded"></div>
           ) : (
             user?.username
           )}
@@ -110,14 +110,14 @@ export default function Profile() {
        <div className=" flex mt-1 flex-col">
        <h1 className=" pl-4 font-semibold text-gray-800">
        {loading ? (
-              <div className="animate-pulse bg-gray-800 h-5 w-24 rounded"></div>
+              <div className="animate-pulse bg-gray-200 h-5 w-24 rounded"></div>
             ) : (
               user?.name
             )}
         </h1>
         <span className="text-gray-800 pl-4 text-sm ">
         {loading ? (
-              <div className="animate-pulse bg-gray-800 mt-1 h-4 w-32 rounded"></div>
+              <div className="animate-pulse bg-gray-200 mt-1 h-4 w-32 rounded"></div>
             ) : (
               `@${user?.username}`
             )}
@@ -144,7 +144,7 @@ export default function Profile() {
     ? Array.from({ length: 4 }).map((_, index) => (
         <div
           key={index}
-          className="animate-pulse bg-gray-800 h-64 rounded-md"
+          className="animate-pulse bg-gray-200 h-64 rounded-md"
         ></div>
       ))
     : user?.moments?.length ? (
