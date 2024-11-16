@@ -28,6 +28,7 @@ interface Moment {
 export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
   const { userId } = useParams();
+  const [loading, setLoading] = useState(true);
  
 
   useEffect(() => {
@@ -39,6 +40,8 @@ export default function Profile() {
         setUser(response.data.user);
       } catch (error) {
         console.error("Error fetching user details:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -46,7 +49,7 @@ export default function Profile() {
   }, [userId]);
 
   return (
-    <div className="bg-zinc-950 text-gray-100 w-full flex flex-col   min-h-screen">
+    <div className="bg-gray-950 text-gray-100 w-full flex flex-col   min-h-screen">
 
 <div className="hidden md:block bg-black fixed w-52 lg:w-80 h-full shadow-md">
           <Sidebar />
@@ -57,7 +60,11 @@ export default function Profile() {
         <Settings />
         </div>
         <div className="text-gray-100 font-bold ">
-          {user?.username}
+        {loading ? (
+            <div className="animate-pulse bg-gray-800 h-6 w-24 rounded"></div>
+          ) : (
+            user?.username
+          )}
         </div>
         <div>
         <UserPen />
@@ -99,11 +106,21 @@ export default function Profile() {
             </div>
           </div>
         </div>
-       <div className="">
-       <h1 className=" pl-4 font-semibold text-gray-300">
-          {user ? user.name : "Loading..."}
+       <div className=" flex flex-col">
+       <h1 className=" pl-2 font-semibold text-gray-300">
+       {loading ? (
+              <div className="animate-pulse bg-gray-800 h-5 w-24 rounded"></div>
+            ) : (
+              user?.name
+            )}
         </h1>
-        <span className="text-gray-300 text-sm pl-3">@{user?.username}</span>
+        <span className="text-gray-300 pl-2 mt-1 text-sm ">
+        {loading ? (
+              <div className="animate-pulse bg-gray-800 h-4 w-32 rounded"></div>
+            ) : (
+              `@${user?.username}`
+            )}
+        </span>
        </div>
       </div>
 
@@ -122,15 +139,23 @@ export default function Profile() {
 
       {/* Moment Cards */}
       <div className="mt-2 w-full max-w-4xl pl-2 pr-2 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {user?.moments?.length ? (
-          user.moments.map((moment) => (
-            <MomentProfileCard key={moment.id} moment={moment} />
-          ))
-        ) : (
-          <p className="text-gray-500 text-center w-full col-span-2 md:col-span-3">
-            No moments to display.
-          </p>
-        )}
+      {loading
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <div
+                key={index}
+                className="animate-pulse bg-gray-800 h-64 rounded-md"
+              ></div>
+            ))
+          : user?.moments?.length ? (
+            user.moments.map((moment) => (
+              <MomentProfileCard key={moment.id} moment={moment} />
+            ))
+          ) : (
+            <p className="text-gray-500 text-center w-full col-span-2 md:col-span-3">
+              No moments to display.
+            </p>
+          )}
+
       </div>
      </div>
 

@@ -28,7 +28,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
     <div className="w-full border-b mt-2  border-gray-500   cursor-pointer  bg-gray-950  ">
       {/* User Info */}
       {user && (
-        <div className="flex  justify-between    py-2 px-2">
+        <div className="flex  justify-between    py-2 ">
           <div className="flex items-center">
             {user.avatarUrl ? (
               <Image
