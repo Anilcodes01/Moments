@@ -4,6 +4,8 @@ import axios from "axios";
 import { FaUserCircle } from "react-icons/fa";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
+import MainMomentSkeleton from "@/app/components/MainMomentSkeleton";
+import Appbar from "@/app/components/Appbar";
 // import MomentUpdateForm from "@/app/components/MomentUpdateForm";
 
 type Media = {
@@ -63,14 +65,21 @@ const MomentPage = () => {
     fetchMoment();
   }, [id]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p>
+    <MainMomentSkeleton />
+  </p>;
   if (!moment) return <p>Moment not found.</p>;
 
 
 
   return (
-    <div className="space-y-4 bg-black min-h-screen text-gray-200 p-4">
-      <h1 className="text-2xl  p-1 rounded-lg font-semibold">{moment.title}</h1>
+   <div className="min-h-screen">
+    <div className="h-16">
+      <Appbar />
+    </div>
+     <div className="space-y-4 bg-gray-950 min-h-screen text-gray-200 p-4">
+      
+      <h1 className="text-2xl   rounded-lg font-semibold">{moment.title}</h1>
       <p>{moment.caption}</p>
       <div className="flex items-center space-x-4">
         <div className="flex items-center gap-2">
@@ -135,6 +144,7 @@ const MomentPage = () => {
 
       {/* <MomentUpdateForm moment={moment}/> */}
     </div>
+   </div>
   );
 };
 
