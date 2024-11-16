@@ -125,7 +125,7 @@ const CreateMoment = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 min-h-screen bg-zinc-950 text-gray-200 p-6 pt-16"
+      className="space-y-6 min-h-screen bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 text-gray-700 p-6 pt-16"
     >
       {currentStep === 1 ? (
         <>
@@ -136,7 +136,7 @@ const CreateMoment = () => {
               value={title}
               onChange={handleTitleChange}
               placeholder="Title..."
-              className="mt-1 block w-full font-bold text-2xl bg-zinc-950 outline-none rounded-md text-gray-400"
+              className="mt-1 block w-full font-bold text-2xl bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 outline-none rounded-md text-gray-700"
               required
             />
           </div>
@@ -145,7 +145,7 @@ const CreateMoment = () => {
             <div key={index} className="flex flex-col gap-6 mb-6">
               <div>
                 <div className="flex justify-between">
-                  <label className="block text-sm font-medium mb-2">
+                  <label className="block text-gray-800 text-sm font-medium mb-2">
                     Image
                   </label>
                   {index !== 0 && (
@@ -181,20 +181,20 @@ const CreateMoment = () => {
                       onClick={() =>
                         document.getElementById(`imageUpload-${index}`)?.click()
                       }
-                      className="absolute top-2 right-2 p-1 bg-gray-800 text-white rounded-full"
+                      className="absolute top-2 right-2 p-1 bg-gray-800 text-gray-800 rounded-full"
                     >
                       <FaEdit />
                     </button>
                   </div>
                 ) : (
                   <div
-                    className="flex items-center justify-center w-full p-4 border border-dashed rounded-md cursor-pointer text-gray-200 hover:text-gray-400"
+                    className="flex items-center justify-center w-full p-4 border border-gray-700 border-dashed rounded-md cursor-pointer text-gray-200 hover:text-gray-400"
                     onClick={() =>
                       document.getElementById(`imageUpload-${index}`)?.click()
                     }
                   >
-                    <FaCloudUploadAlt size={40} className="mr-2" />
-                    <span>Upload Image</span>
+                    <FaCloudUploadAlt size={40} className="mr-2 text-gray-700" />
+                    <span className="text-gray-700">Upload Image</span>
                   </div>
                 )}
               </div>
@@ -202,7 +202,7 @@ const CreateMoment = () => {
               <textarea
                 value={section.caption}
                 onChange={(e) => handleCaptionChange(index, e)}
-                className="block w-full p-2 bg-zinc-950 outline-none  rounded-md text-gray-400"
+                className="block w-full p-2 text-gray-700 bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 outline-none  rounded-md"
                 rows={3}
                 placeholder="Write something about the image..."
                 required
@@ -240,13 +240,13 @@ const CreateMoment = () => {
               id="coverImageUpload"
             />
             <div
-              className="flex items-center justify-center w-full p-4 border border-dashed rounded-md cursor-pointer text-gray-200 hover:text-gray-400"
+              className="flex items-center justify-center w-full p-4 border border-dashed rounded-md cursor-pointer text-gray-700 hover:text-gray-400"
               onClick={() =>
                 document.getElementById("coverImageUpload")?.click()
               }
             >
-              <FaCloudUploadAlt size={40} className="mr-2" />
-              <span>Upload Cover Image</span>
+              <FaCloudUploadAlt size={40} className="mr-2 text-gray-700" />
+              <span className="text-gray-700">Upload Cover Image</span>
             </div>
             {coverPreviewUrl && (
               <Image
@@ -263,7 +263,7 @@ const CreateMoment = () => {
             id="description"
             value={description}
             onChange={handleDescriptionChange}
-            className="block w-full p-2 bg-zinc-950 outline-none rounded-md text-gray-400"
+            className="block w-full p-2 bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 outline-none rounded-md text-gray-700"
             rows={4}
             placeholder="Describe your moment..."
             required

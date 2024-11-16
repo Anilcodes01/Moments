@@ -50,17 +50,17 @@ export default function Profile() {
   }, [userId]);
 
   return (
-    <div className="bg-gray-950 text-gray-100 w-full flex flex-col mb-12  min-h-screen">
+    <div className="bg-gradient-to-br from-blue-50 via-purple-50 mb-12 to-pink-50 text-gray-100 w-full flex flex-col   min-h-screen">
 
-<div className="hidden md:block bg-black fixed w-52 lg:w-80 h-full shadow-md">
+<div className="hidden md:block bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 fixed w-52 lg:w-80 h-full shadow-md">
           <Sidebar />
         </div>
 
-      <div className="text-gray-100 h-12 flex justify-around items-center border-gray-500 border-b">
+      <div className="text-gray-800 h-12 flex justify-around items-center border-slate-200 border-b">
         <div>
         <Settings />
         </div>
-        <div className="text-gray-100 font-bold ">
+        <div className="text-gray-800 font-bold ">
         {loading ? (
             <div className="animate-pulse bg-gray-800 h-6 w-24 rounded"></div>
           ) : (
@@ -89,33 +89,33 @@ export default function Profile() {
               className="rounded-full h-20 w-20 p-1 mt-4 object-cover"
             />
           ) : (
-            <FaUserCircle className="h-24 w-24 mt-4  text-gray-100" />
+            <FaUserCircle className="h-24 w-24 mt-4  text-gray-800" />
           )}
 
           <div className="flex justify-between p-4 mt-4 w-full max-w-lg">
-            <div className="text-center text-gray-200">
+            <div className="text-center text-gray-800">
               <span className=" font-semibold block">69</span>
-              <span className="text-sm text-gray-200">Moments</span>
+              <span className="text-sm text-gray-800">Moments</span>
             </div>
-            <div className="text-center text-gray-200">
+            <div className="text-center text-gray-800">
               <span className=" font-semibold block">201</span>
-              <span className="text-sm text-gray-200">Following</span>
+              <span className="text-sm text-gray-800">Following</span>
             </div>
-            <div className="text-center text-gray-100">
+            <div className="text-center text-gray-800">
               <span className=" font-semibold block">14.7k</span>
-              <span className="text-sm text-gray-100">Followers</span>
+              <span className="text-sm text-gray-800">Followers</span>
             </div>
           </div>
         </div>
        <div className=" flex mt-1 flex-col">
-       <h1 className=" pl-4 font-semibold text-gray-300">
+       <h1 className=" pl-4 font-semibold text-gray-800">
        {loading ? (
               <div className="animate-pulse bg-gray-800 h-5 w-24 rounded"></div>
             ) : (
               user?.name
             )}
         </h1>
-        <span className="text-gray-300 pl-4 text-sm ">
+        <span className="text-gray-800 pl-4 text-sm ">
         {loading ? (
               <div className="animate-pulse bg-gray-800 mt-1 h-4 w-32 rounded"></div>
             ) : (
@@ -126,14 +126,14 @@ export default function Profile() {
       </div>
 
       {/* Moment Filters */}
-      <div className="flex mt-8 gap-4 w-full max-w-lg border-b border-gray-500 pb-2 justify-around">
-        <button className=" text-gray-300 hover:text-gray-800 focus:text-blue-600  focus:border-blue-600 transition">
+      <div className="flex mt-8 gap-4 w-full max-w-lg border-b border-slate-200 pb-2 justify-around">
+        <button className=" text-gray-800 hover:text-gray-800 focus:text-blue-600  focus:border-blue-600 transition">
           Shared
         </button>
-        <button className=" text-gray-300 hover:text-gray-800 focus:text-blue-600  focus:border-blue-600 transition">
+        <button className=" text-gray-800 hover:text-gray-800 focus:text-blue-600  focus:border-blue-600 transition">
           Collaborative
         </button>
-        <button className=" text-gray-300 hover:text-gray-800 focus:text-blue-600  focus:border-blue-600 transition">
+        <button className=" text-gray-800 hover:text-gray-800 focus:text-blue-600  focus:border-blue-600 transition">
           Private
         </button>
       </div>
@@ -161,7 +161,7 @@ export default function Profile() {
 
      </div>
 
-     <div className="md:hidden h-12  fixed bottom-0 w-full bg-black  shadow-md border-t border-gray-500">
+     <div className="md:hidden h-12  fixed bottom-0 w-full   shadow-md border-t border-slate-200">
         <Sidebar isMobile={true} />
       </div>
     </div>

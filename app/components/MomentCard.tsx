@@ -25,7 +25,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
   const user = moment.user;
 
   return (
-    <div className="w-full border-b  mb-6  border-gray-700   cursor-pointer  bg-gray-950  ">
+    <div className="w-full border-b  mb-6  border-slate-200   cursor-pointer  bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50  ">
       {/* User Info */}
       {user && (
         <div className="flex  justify-between    py-2 ">
@@ -39,9 +39,9 @@ export default function MomentCard({ moment }: { moment: Moment }) {
                 className="rounded-full h-10 w-10 object-cover"
               />
             ) : (
-              <FaUserCircle className="text-gray-200" size={32} />
+              <FaUserCircle className="text-gray-800" size={32} />
             )}
-            <span className="ml-2 text-sm  font-bold text-gray-200">
+            <span className="ml-2 text-sm  font-bold text-gray-800">
               {user.name}
             </span>
           </div>
@@ -78,7 +78,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
       </div>
 
       {/* Caption */}
-      <div className="mt-4 ml-2  mb-4 text-gray-200 text-sm">
+      <div className="mt-4 ml-2  mb-4 text-gray-800 text-sm">
         <span className="font-bold mr-2">{moment.user?.name}</span>
         <span className="break-words">{moment.description}</span>
       </div>
