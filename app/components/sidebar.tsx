@@ -47,40 +47,41 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
   return (
     <div
       className={`bg-gray-950 ${
-        isMobile ? "w-full flex-row  justify-around" : "w-full flex-col"
+        isMobile ? "w-full flex-row items-center justify-around" : "w-full flex-col"
       } flex items-center h-full md:h-screen text-black`}
     >
       {/* Navigation buttons */}
       <div
         className={`${
           isMobile
-            ? "flex justify-around w-full p-2"
+            ? "flex justify-around items-center w-full p-2"
             : "flex flex-col w-full text-center p-4 gap-4"
         }`}
       >
-       <Link href={'/'}>
-       <div className="flex gap-2 items-center text-white cursor-pointer  rounded-lg p-2 hover:text-white">
-          <GoHome  size={24} />
-          {!isMobile && (
-            <button
-              onClick={() => router.push("/")}
-              className="text-xl w-full items-center flex"
-            >
-              Home
-            </button>
-          )}
-        </div>
-       </Link>
+       <Link href={"/"}>
+  <div className="flex gap-2  items-center justify-center text-white cursor-pointer rounded-lg p-2 hover:text-white">
+    <GoHome size={24} className="flex-shrink-0" />
+    {!isMobile && (
+      <button
+        onClick={() => router.push("/")}
+        className="text-xl w-full   flex items-center"
+      >
+        Home
+      </button>
+    )}
+  </div>
+</Link>
+
         <div className="flex gap-2 hover:text-white items-center text-white cursor-pointer  rounded-lg p-2 ">
-          <Search size={22} />
+          <Search size={24} />
           {!isMobile && <button className="text-xl">Search</button>}
         </div>
-        <div className="flex gap-2  items-center text-white cursor-pointer  rounded-lg p-2 ">
+        <div className="flex gap-2 items-center text-white cursor-pointer  rounded-lg p-2 ">
           <SquarePlus onClick={() => router.push("/upload")} size={24} />
           {!isMobile && (
             <button
               onClick={() => router.push("/network")}
-              className="text-xl w-full flex items-start"
+              className="text-xl w-full flex items-center"
             >
               Network
             </button>
@@ -99,8 +100,8 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
           </div>
         ) : (
           <Link href={`/${userId}`}>
-  <div className="flex gap-2 items-center cursor-pointer rounded-lg p-2">
-    <div className="flex h-8 w-8 overflow-hidden items-center">
+  <div className="flex gap-2  items-center cursor-pointer rounded-lg p-2">
+    <div className="flex h-8 w-8  overflow-hidden items-center">
       {session?.user.avatarUrl ? (
         <Image
           src={session.user.avatarUrl}
