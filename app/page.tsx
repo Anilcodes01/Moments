@@ -91,7 +91,7 @@ export default function Home() {
       </div>
 
       {/* Mobile Bottom Navbar */}
-      <div className="md:hidden h-12 fixed bottom-0 w-full bg-white border-t border-gray-500">
+      <div className="md:hidden h-12 fixed bottom-0 w-full bg-white border-t border-gray-800">
         <Sidebar isMobile={true} />
       </div>
     </div>

@@ -25,7 +25,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
   const user = moment.user;
 
   return (
-    <div className="w-full border-b  mb-6  border-gray-500   cursor-pointer  bg-gray-950  ">
+    <div className="w-full border-b  mb-6  border-gray-700   cursor-pointer  bg-gray-950  ">
       {/* User Info */}
       {user && (
         <div className="flex  justify-between    py-2 ">
