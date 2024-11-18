@@ -125,7 +125,7 @@ const CreateMoment = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 min-h-screen bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 text-gray-700 p-6 pt-16"
+      className="space-y-6 min-h-screen bg-gradient-to-br mb-10 from-blue-50 via-purple-50  to-pink-50 text-gray-700 p-6 pt-16"
     >
       {currentStep === 1 ? (
         <>
@@ -200,13 +200,17 @@ const CreateMoment = () => {
               </div>
 
               <textarea
-                value={section.caption}
-                onChange={(e) => handleCaptionChange(index, e)}
-                className="block w-full p-2 text-gray-700 bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 outline-none  rounded-md"
-                rows={3}
-                placeholder="Write something about the image..."
-                required
-              ></textarea>
+  value={section.caption}
+  onChange={(e) => {
+    handleCaptionChange(index, e);
+    e.target.style.height = "auto"; // Reset the height to calculate the new height
+    e.target.style.height = `${e.target.scrollHeight}px`; // Set the height to match the scroll height
+  }}
+  className="block w-full p-2 text-gray-700 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 outline-none rounded-md resize-none"
+  placeholder="Write something about the image..."
+  required
+></textarea>
+
             </div>
           ))}
 
