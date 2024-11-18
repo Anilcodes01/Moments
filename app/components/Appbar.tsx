@@ -25,6 +25,7 @@ export default function Appbar() {
             profileLink={`/${loggedInUserID}`}
             size={28}
             alt="Profile Picture"
+            
           />
         ) : (
           <Link

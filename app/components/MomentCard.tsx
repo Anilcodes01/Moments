@@ -36,7 +36,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
                 alt={`${user.name}'s avatar`}
                 width={96}
                 height={96}
-                className="rounded-full h-10 w-10 object-cover"
+                className="rounded-full h-8 w-8 object-cover"
               />
             ) : (
               <FaUserCircle className="text-gray-800" size={32} />

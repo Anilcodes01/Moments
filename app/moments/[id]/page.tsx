@@ -117,7 +117,7 @@ const MomentPage = () => {
                   {moment.user.name}
                   <p
                   onClick={() => router.push(`/${moment.user.id}`)}
-                  className="text-xs text-gray-500 cursor-pointer"
+                  className="text-xs text-gray-500 font-medium cursor-pointer"
                 >
                   @{moment.user.username}
                 </p>
