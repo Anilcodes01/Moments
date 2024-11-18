@@ -25,7 +25,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
   const user = moment.user;
 
   return (
-    <div className="w-full border-b  mb-6  border-slate-200   cursor-pointer  bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50  ">
+    <div className="w-full border-b  mb-6 rounded-lg shadow-md p-2 border-slate-200   cursor-pointer  bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50  ">
       {/* User Info */}
       {user && (
         <div className="flex  justify-between    py-2 ">
@@ -46,7 +46,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
             </span>
           </div>
           <div>
-            <Ellipsis
+            <Ellipsis className="text-gray-800"
               onClick={() => {
                 router.push("#");
               }}
