@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { compressImage } from '@/app/utils/fileHelpers';
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -35,26 +36,52 @@ const CreateMoment = () => {
     setDescription(e.target.value);
   };
 
-  const handleCoverImageChange = (
+  const handleCoverImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      setCoverImage(file);
-      setCoverPreviewUrl(URL.createObjectURL(file));
+      try {
+        const file = event.target.files[0];
+        
+        if (file.size > 10 * 1024 * 1024) {
+          alert('File is too large. Please select an image under 10MB.');
+          return;
+        }
+  
+        const compressedFile = await compressImage(file);
+        setCoverImage(compressedFile);
+        setCoverPreviewUrl(URL.createObjectURL(compressedFile));
+      } catch (error) {
+        console.error('Error compressing image:', error);
+        alert('Error processing image. Please try again.');
+      }
     }
   };
 
-  const handleImageChange = (
+  const handleImageChange = async (
     index: number,
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const newMomentSections = [...momentSections];
-      newMomentSections[index].image = file;
-      newMomentSections[index].previewUrl = URL.createObjectURL(file);
-      setMomentSections(newMomentSections);
+      try {
+        const file = event.target.files[0];
+        
+        // Check file size before compression
+        if (file.size > 10 * 1024 * 1024) { // 10MB
+          alert('File is too large. Please select an image under 10MB.');
+          return;
+        }
+  
+        // Compress the image
+        const compressedFile = await compressImage(file);
+        const newMomentSections = [...momentSections];
+        newMomentSections[index].image = compressedFile;
+        newMomentSections[index].previewUrl = URL.createObjectURL(compressedFile);
+        setMomentSections(newMomentSections);
+      } catch (error) {
+        console.error('Error compressing image:', error);
+        alert('Error processing image. Please try again.');
+      }
     }
   };
 
