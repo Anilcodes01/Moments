@@ -115,13 +115,14 @@ const MomentPage = () => {
                   className="font-semibold  cursor-pointer"
                 >
                   {moment.user.name}
-                </p>
-                <p
+                  <p
                   onClick={() => router.push(`/${moment.user.id}`)}
                   className="text-xs text-gray-500 cursor-pointer"
                 >
                   @{moment.user.username}
                 </p>
+                </p>
+               
               </div>
             </div>
           </div>

@@ -14,38 +14,39 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  username  String    @unique
+  id        String   @id @default(uuid())
+  username  String   @unique
   name      String?
-  email     String    @unique
+  email     String   @unique
+  bio       String?
   password  String
   avatarUrl String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt()
-  
-  moments   Moment[]  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  moments Moment[]
 }
 
 model Moment {
   id          String   @id @default(uuid())
   title       String
-  description     String?
+  description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt()
-  coverImage  String   
-  userId      String?   
+  coverImage  String
+  userId      String?
   user        User?    @relation(fields: [userId], references: [id])
 
-  media       Media[]  
+  media Media[]
 }
 
 model Media {
-  id        String   @id @default(uuid())
-  url       String   
-  type      MediaType 
-  caption String?
-  momentId  String   
-  moment    Moment   @relation(fields: [momentId], references: [id])
+  id       String    @id @default(uuid())
+  url      String
+  type     MediaType
+  caption  String?
+  momentId String
+  moment   Moment    @relation(fields: [momentId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
