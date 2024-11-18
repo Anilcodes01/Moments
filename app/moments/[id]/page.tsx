@@ -88,7 +88,7 @@ const MomentPage = () => {
 
         {/* Main content */}
         <div className="flex-1 bg-white lg:rounded-lg lg:shadow-md lg:m-10 p-6 lg:p-10 space-y-6 text-gray-800">
-          <h1 className="text-3xl font-bold text-gray-900">{moment.title}</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{moment.title}</h1>
           <p className="text-lg text-gray-700">{moment.caption}</p>
 
           <div className="flex items-center space-x-4">
@@ -103,22 +103,22 @@ const MomentPage = () => {
                     alt="user avatar"
                     width={96}
                     height={96}
-                    className="w-12 h-12 rounded-full object-cover overflow-hidden border"
+                    className="w-10 h-10 rounded-full object-cover overflow-hidden border"
                   />
                 ) : (
-                  <FaUserCircle className="h-12 w-12 text-gray-300" />
+                  <FaUserCircle className="h-10 w-10 text-gray-300" />
                 )}
               </div>
               <div>
                 <p
                   onClick={() => router.push(`/${moment.user.id}`)}
-                  className="font-semibold text-lg cursor-pointer"
+                  className="font-semibold  cursor-pointer"
                 >
                   {moment.user.name}
                 </p>
                 <p
                   onClick={() => router.push(`/${moment.user.id}`)}
-                  className="text-sm text-gray-500 cursor-pointer"
+                  className="text-xs text-gray-500 cursor-pointer"
                 >
                   @{moment.user.username}
                 </p>
