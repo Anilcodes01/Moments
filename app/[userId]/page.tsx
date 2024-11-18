@@ -108,9 +108,9 @@ export default function Profile() {
           </div>
         </div>
        <div className=" flex mt-1 flex-col">
-       <h1 className=" pl-4 font-semibold flex flex-col text-gray-800">
+       <h1 className=" pl-2 font-semibold flex flex-col text-gray-800">
        {loading ? (
-              <div className="animate-pulse bg-gray-200 h-5 w-24 rounded"></div>
+              <div className="animate-pulse bg-gray-200 h-5 w-20 rounded"></div>
             ) : (
               user?.name
             )}

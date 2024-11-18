@@ -181,7 +181,7 @@ export default function Search() {
           {searchResults.map((user) => (
             <div
               key={user.id}
-              onClick={() => router.push(`/user/${user.id}`)}
+              onClick={() => router.push(`/${user.id}`)}
               className="flex flex-col items-center cursor-pointer"
             >
               {user.avatarUrl ? (
