@@ -12,6 +12,15 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "25mb", 
+    },
+  },
+};
+
+
 export async function POST(request: Request) {
   try {
     const session = await getServerSession(authOptions);
