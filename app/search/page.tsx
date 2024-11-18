@@ -66,7 +66,7 @@ export default function Search() {
                 type="search"
                 id="default-search"
                 className="block w-full h-8  p-2 bg-slate-100 text-start text-sm text-black outline-none rounded-full"
-                placeholder="Search developers..."
+                placeholder="Search friends..."
                 value={searchQuery}
                 onChange={handleSearchChange}
                 required
@@ -103,7 +103,7 @@ export default function Search() {
           )} */}
         </div>
 
-        <div className="mr-8 flex">
+        <div className="mr-4 flex">
           <div className="relative flex items-center ml-4 sm:ml-4">
             {session?.user ? (
               <>
@@ -114,7 +114,7 @@ export default function Search() {
                       alt="User Profile Picture"
                       width={192}
                       height={192}
-                      className="rounded-full h-10 w-10 object-cover cursor-pointer border"
+                      className="rounded-full h-8 w-8 object-cover cursor-pointer border"
                     />
                   ) : (
                     <div className="flex items-center justify-center cursor-pointer h-7 w-7 rounded-full border bg-gray-200 text-black">
