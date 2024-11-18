@@ -12,14 +12,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "25mb", 
-    },
-  },
-};
-
+export const runtime = "nodejs"; 
 
 export async function POST(request: Request) {
   try {
@@ -30,7 +23,7 @@ export async function POST(request: Request) {
 
     const formData = await request.formData();
     const title = formData.get("title") as string;
-    const description = formData.get("description") as string ; // New description field
+    const description = formData.get("description") as string;
     const coverImageFile = formData.get("coverImage") as File | null;
 
     let coverImageUrl = "";
@@ -49,7 +42,7 @@ export async function POST(request: Request) {
     const moment = await prisma.moment.create({
       data: {
         title,
-        description,  // Save the description
+        description,
         coverImage: coverImageUrl,
         userId: session.user.id,
       },
@@ -58,7 +51,6 @@ export async function POST(request: Request) {
     const mediaPromises = Array.from(formData.entries())
       .filter(([key]) => key.startsWith("media_"))
       .map(async ([key, value], index) => {
-        console.log(key)
         const file = value as File;
         const buffer = await file.arrayBuffer();
         const base64 = Buffer.from(buffer).toString("base64");
@@ -92,7 +84,3 @@ export async function POST(request: Request) {
     );
   }
 }
-
-
-
-
