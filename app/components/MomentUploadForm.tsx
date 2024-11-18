@@ -116,7 +116,7 @@ const CreateMoment = () => {
       }
     } catch (error) {
       console.error("Failed to create moment:", error);
-      alert("Failed to create moment. Please try again.");
+      alert((error as Error).message);
     } finally {
       setIsSubmitting(false);
     }
