@@ -86,7 +86,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
    
       <div className="mt-4 ml-2 mb-4 text-gray-800 text-sm">
         <span className="font-bold mr-2">{moment.user?.name}</span>
-        <span className="break-words">
+        <span className="break-words text-sm">
           {moment.description ? (
             <>
               {isExpanded ? (
@@ -97,7 +97,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
               {moment.description.length > 100 && (
                 <button
                   onClick={toggleDescription}
-                  className=" text-blue-500 "
+                  className=" text-xs text-blue-500 "
                 >
                   {isExpanded ? "Show Less" : "Read More"}
                 </button>
