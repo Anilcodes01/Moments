@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Ellipsis } from "lucide-react";
 
@@ -23,12 +24,16 @@ export default function MomentCard({ moment }: { moment: Moment }) {
   const router = useRouter();
   const imageUrl = moment.coverImage || "";
   const user = moment.user;
+  const [isExpanded, setIsExpanded] = useState(false);
+
+
+  const toggleDescription = () => setIsExpanded((prev) => !prev);
 
   return (
-    <div className="w-full border-b  mb-6 rounded-lg shadow-md p-2 border-slate-200   cursor-pointer  bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50  ">
+    <div className="w-full border-b mb-6 rounded-lg shadow-md p-2 border-slate-200 cursor-pointer bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
       {/* User Info */}
       {user && (
-        <div className="flex  justify-between    py-2 ">
+        <div className="flex justify-between py-2">
           <div className="flex items-center">
             {user.avatarUrl ? (
               <Image
@@ -41,12 +46,13 @@ export default function MomentCard({ moment }: { moment: Moment }) {
             ) : (
               <FaUserCircle className="text-gray-800" size={32} />
             )}
-            <span className="ml-2 text-sm  font-bold text-gray-800">
+            <span className="ml-2 text-sm font-bold text-gray-800">
               {user.name}
             </span>
           </div>
           <div>
-            <Ellipsis className="text-gray-800"
+            <Ellipsis
+              className="text-gray-800"
               onClick={() => {
                 router.push("#");
               }}
@@ -55,12 +61,12 @@ export default function MomentCard({ moment }: { moment: Moment }) {
         </div>
       )}
 
-      {/* Moment Image */}
+     
       <div
         onClick={() => {
           router.push(`/moments/${moment.id}`);
         }}
-        className="relative   w-full h-48  overflow-hidden"
+        className="relative w-full h-48 overflow-hidden"
       >
         {imageUrl ? (
           <Image
@@ -77,10 +83,30 @@ export default function MomentCard({ moment }: { moment: Moment }) {
         )}
       </div>
 
-      {/* Caption */}
-      <div className="mt-4 ml-2  mb-4 text-gray-800 text-sm">
+   
+      <div className="mt-4 ml-2 mb-4 text-gray-800 text-sm">
         <span className="font-bold mr-2">{moment.user?.name}</span>
-        <span className="break-words">{moment.description}</span>
+        <span className="break-words">
+          {moment.description ? (
+            <>
+              {isExpanded ? (
+                moment.description
+              ) : (
+                `${moment.description.slice(0, 30)}...`
+              )}
+              {moment.description.length > 100 && (
+                <button
+                  onClick={toggleDescription}
+                  className=" text-blue-500 "
+                >
+                  {isExpanded ? "Show Less" : "Read More"}
+                </button>
+              )}
+            </>
+          ) : (
+            "No description provided."
+          )}
+        </span>
       </div>
     </div>
   );
