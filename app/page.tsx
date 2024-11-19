@@ -73,7 +73,7 @@ export default function Home() {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 overflow-auto mt-4  pl-4 pr-4 mb-16 lg:px-10">
+        <div className="flex-1 overflow-auto mt-4  pl-4 pr-4 mb-16 lg:mr-52 border-r lg:px-10">
           {loading ? (
             <div className="text-center text-gray-700 text-lg">
               <MomentSkeleton />

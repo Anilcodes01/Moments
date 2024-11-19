@@ -9,6 +9,7 @@ import { Settings } from 'lucide-react';
 import { UserPen } from 'lucide-react';
 import Sidebar from "../components/sidebar";
 import { BookHeart } from 'lucide-react';
+import Appbar from "../components/Appbar";
 
 interface User {
   id: string;
@@ -50,13 +51,14 @@ export default function Profile() {
   }, [userId]);
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-purple-50 mb-12 to-pink-50 text-gray-100 w-full flex flex-col   min-h-screen">
+    <div className="bg-gradient-to-br min-h-screen from-blue-50 via-purple-50 to-pink-50 bg-yellow-300 text-gray-100 w-full flex flex-col   ">
+    
 
-<div className="hidden md:block bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 fixed w-52 lg:w-80 h-full shadow-md">
+<div className="hidden md:block  bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 fixed w-52 lg:w-80 h-full shadow-md">
           <Sidebar />
         </div>
 
-      <div className="text-gray-800 h-12 flex justify-around items-center border-slate-200 border-b">
+      <div className="text-gray-800 h-12 md:ml-52 lg:ml-80 flex justify-around items-center border-slate-200 border-b">
         <div>
         <Settings />
         </div>
@@ -76,10 +78,10 @@ export default function Profile() {
 
 
 
-     <div className="">
+     <div className="md:ml-52 lg:ml-80 min-h-screen  ">
        {/* User Avatar and Name */}
-       <div className="flex flex-col px-2 ">
-        <div className="  flex  items-center gap-2  ">
+       <div className="flex flex-col px-2   w-full ">
+        <div className="  flex lg:w-full lg:justify-around items-center gap-2  ">
           {user?.avatarUrl ? (
             <Image
               src={user.avatarUrl}
@@ -108,7 +110,7 @@ export default function Profile() {
           </div>
         </div>
        <div className=" flex mt-1 flex-col">
-       <h1 className=" pl-2 font-semibold flex flex-col text-gray-800">
+       <h1 className=" pl-2 lg:ml-36 font-semibold flex flex-col text-gray-800">
        {loading ? (
               <div className="animate-pulse bg-gray-200 h-5 w-20 rounded"></div>
             ) : (
@@ -121,7 +123,7 @@ export default function Profile() {
       </div>
 
       {/* Moment Filters */}
-      <div className="flex mt-8 gap-4 w-full max-w-lg border-b border-slate-200 pb-2 justify-around">
+      <div className="flex mt-8 gap-4 lg:w-full   justify-around border-b border-slate-200 pb-2 ">
         <button className=" text-gray-800 hover:text-gray-800 focus:text-blue-600  focus:border-blue-600 transition">
           Shared
         </button>
@@ -134,7 +136,7 @@ export default function Profile() {
       </div>
 
       {/* Moment Cards */}
-      <div className="mt-2 w-full max-w-4xl mb-4 pl-2 pr-2 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="lg:mt-4 mt-2 w-full max-w-4xl mb-4 pl-2 lg:px-4 pr-2 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
   {loading
     ? Array.from({ length: 4 }).map((_, index) => (
         <div
