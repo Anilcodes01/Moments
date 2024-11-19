@@ -9,7 +9,6 @@ import { Settings } from 'lucide-react';
 import { UserPen } from 'lucide-react';
 import Sidebar from "../components/sidebar";
 import { BookHeart } from 'lucide-react';
-import Appbar from "../components/Appbar";
 
 interface User {
   id: string;
