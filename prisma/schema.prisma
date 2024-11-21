@@ -25,6 +25,7 @@ model User {
   updatedAt DateTime @updatedAt()
 
   moments Moment[]
+  taggedInMoments MomentToUser[]
 }
 
 model Moment {
@@ -38,6 +39,7 @@ model Moment {
   user        User?    @relation(fields: [userId], references: [id])
 
   media Media[]
+  tags MomentToUser[]
 }
 
 model Media {
@@ -50,6 +52,16 @@ model Media {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
+}
+
+model MomentToUser {
+  id String @id @default(uuid())
+  momentId String
+  userId String
+  moment Moment @relation(fields: [momentId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([momentId, userId])
 }
 
 enum MediaType {

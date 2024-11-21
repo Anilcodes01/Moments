@@ -61,7 +61,7 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
         }`}
       >
         <Link href={"/"}>
-          <div className="flex gap-2 hover:lg:bg-gray-400 hover:md:bg-gray-400  items-center justify-center text-gray-800 cursor-pointer rounded-lg p-2 hover:text-white">
+          <div className="flex gap-2 hover:bg-slate-200 items-center justify-center text-gray-800 cursor-pointer rounded-lg p-2 hover:text-gray-800">
             <GoHome size={24} className="flex-shrink-0" />
             {!isMobile && (
               <button
@@ -74,12 +74,15 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
           </div>
         </Link>
 
-        <div className="flex gap-2 hover:lg:bg-gray-400 hover:md:bg-gray-400 hover:text-white items-center text-gray-800 cursor-pointer  rounded-lg p-2 ">
+        <div className="flex gap-2 hover:bg-slate-200 hover:text-gray-800 items-center text-gray-800 cursor-pointer  rounded-lg p-2 ">
           <Search  onClick={() => {
                 router.push("/search");
               }} size={24} />
           {!isMobile && (
             <button
+            onClick={() => {
+              router.push('/search')
+            }}
              
               className="text-xl"
             >
@@ -87,10 +90,13 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
             </button>
           )}
         </div>
-        <div className="flex gap-2 hover:lg:bg-gray-400 hover:md:bg-gray-400 items-center text-gray-800 cursor-pointer  rounded-lg p-2 ">
+        <div className="flex gap-2  hover:bg-slate-200 items-center text-gray-800 cursor-pointer  rounded-lg p-2 ">
           <SquarePlus onClick={() => router.push("/upload")} size={24} />
           {!isMobile && (
             <button
+            onClick={() => {
+              router.push('/upload')
+            }}
               
               className="text-xl w-full flex items-center"
             >
@@ -100,11 +106,11 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
         </div>
 
         {!isMobile ? (
-          <div className="flex gap-2 text-white items-center cursor-pointer hover:bg-slate-600 rounded-lg p-2 ">
-            <BookOpenText onClick={() => router.push("/bookmarks")} size={24} />
+          <div className="flex gap-2 text-white items-center cursor-pointer hover:bg-slate-200 rounded-lg p-2 ">
+            <BookOpenText className="text-gray-800"  size={24} />
             <button
-              onClick={() => router.push("/bookmarks")}
-              className="text-xl w-full flex items-start"
+             
+              className="text-xl text-gray-800 w-full flex items-start"
             >
               Stories
             </button>

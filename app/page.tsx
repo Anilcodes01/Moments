@@ -19,7 +19,7 @@ interface Moment {
   id: string;
   title?: string;
   caption?: string;
-  description?: string; // Ensure you add this to access the description
+  description?: string; 
   createdAt?: string;
   coverImage?: string;
   media?: { url: string }[];
@@ -68,7 +68,7 @@ export default function Home() {
 
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         {/* Sidebar for Desktop */}
-        <div className="hidden md:block w-52  lg:w-80  shadow-md h-full">
+        <div className="hidden md:block w-52  lg:w-64  shadow-md h-full">
           <Sidebar />
         </div>
 

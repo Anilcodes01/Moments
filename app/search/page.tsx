@@ -59,13 +59,13 @@ export default function Search() {
         </button>
 
         {/* Search bar */}
-        <div className="relative sm:block ">
-          <form className="">
-            <div className="relative ml-3">
+        <div className="relative  lg:w-1/2 md:w-1/2 sm:block ">
+          <form className=" lg:w-full md:w-full">
+            <div className="relative  lg:w-full md:w-full  ml-3">
               <input
                 type="search"
                 id="default-search"
-                className="block w-full h-8  p-2 bg-slate-100 text-start text-sm text-black outline-none rounded-full"
+                className="block w-full h-8 lg:w-full md:w-full p-2 bg-slate-100 text-start text-sm text-black outline-none rounded-full"
                 placeholder="Search friends..."
                 value={searchQuery}
                 onChange={handleSearchChange}
