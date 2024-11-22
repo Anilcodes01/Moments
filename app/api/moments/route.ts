@@ -12,7 +12,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export const runtime = "nodejs"; 
+export const runtime = "nodejs";
 
 export async function POST(request: Request) {
   try {
@@ -48,10 +48,10 @@ export async function POST(request: Request) {
       },
     });
 
+    // Process Media Files
     const mediaPromises = Array.from(formData.entries())
       .filter(([key]) => key.startsWith("media_"))
       .map(async ([key, value], index) => {
-        console.log(key)
         const file = value as File;
         const buffer = await file.arrayBuffer();
         const base64 = Buffer.from(buffer).toString("base64");
@@ -75,6 +75,26 @@ export async function POST(request: Request) {
       });
 
     const media = await Promise.all(mediaPromises);
+
+    // Process Mentioned Users
+    const mentionedUsersPromises = Array.from(formData.entries())
+      .filter(([key]) => key.startsWith("mentionedUsers_"))
+      .map(async ([key, value]) => {
+        const mentionedUserIds = JSON.parse(value as string) as string[];
+
+        return Promise.all(
+          mentionedUserIds.map((userId) =>
+            prisma.momentToUser.create({
+              data: {
+                momentId: moment.id,
+                userId,
+              },
+            })
+          )
+        );
+      });
+
+    await Promise.all(mentionedUsersPromises);
 
     return NextResponse.json({ moment, media });
   } catch (error) {

@@ -6,7 +6,7 @@ import Sidebar from '../components/sidebar';
 
 export default function UploadPage() {
   return (
-    <div className='bg-sky-400 '>
+    <div className=' '>
       <div className="">
         <Appbar />
       </div>
@@ -16,7 +16,7 @@ export default function UploadPage() {
           <Sidebar />
         </div>
       
-      <div className='bg-gradient-to-br min-h-screen md:w-full md:p-8  from-blue-50 via-purple-50  to-pink-50'>
+      <div className='bg-gradient-to-br min-h-screen md:w-full md:p-8 w-full  from-blue-50 via-purple-50  to-pink-50'>
       <MomentUploadForm />
       </div>
     </div>

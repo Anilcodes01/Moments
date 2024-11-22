@@ -16,6 +16,7 @@ type Media = {
   type: "PHOTO" | "VIDEO";
   caption: string;
   createdAt: string;
+  
 };
 
 type Moment = {
@@ -25,11 +26,13 @@ type Moment = {
   coverImage: string;
   createdAt: string;
   media: Media[];
+  
   user: {
     id: string;
     username: string;
     name: string;
     avatarUrl: string;
+    
   };
 };
 
@@ -54,6 +57,7 @@ const formatCaption = (caption: string | undefined) => {
     </span>
   ));
 };
+
 
 const MomentPage = () => {
   const router = useRouter();
@@ -89,6 +93,8 @@ const MomentPage = () => {
 
     fetchMoment();
   }, [id]);
+
+ 
 
   if (loading)
     return (

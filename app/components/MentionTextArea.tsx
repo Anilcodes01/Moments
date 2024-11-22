@@ -169,6 +169,8 @@ const MentionTextarea: React.FC<MentionTextareaProps> = ({
                 <Image
                   src={user.avatarUrl}
                   alt={user.name}
+                  width={36}
+                  height={36}
                   className="w-6 h-6 rounded-full"
                 />
               ) : (

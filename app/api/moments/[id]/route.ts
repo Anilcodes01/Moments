@@ -11,6 +11,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
     const moment = await prisma.moment.findUnique({
       where: { id },
       include: {
+        tags: true,
         media: true,
         user: {
           select: {
@@ -20,6 +21,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
             avatarUrl: true,
           },
         },
+        
       },
     });
 
