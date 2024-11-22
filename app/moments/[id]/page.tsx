@@ -1,9 +1,11 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaUserCircle } from "react-icons/fa";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import MainMomentSkeleton from "@/app/components/MainMomentSkeleton";
 import Appbar from "@/app/components/Appbar";
 import Sidebar from "@/app/components/sidebar";
@@ -29,6 +31,28 @@ type Moment = {
     name: string;
     avatarUrl: string;
   };
+};
+
+const formatCaption = (caption: string | undefined) => {
+  if (!caption) return <span>No caption provided.</span>;
+
+  const mentionRegex = /@\w+/g; // Matches words starting with '@'
+  const parts = caption.split(mentionRegex); // Split text by mentions
+  const mentions = caption.match(mentionRegex); // Get all mentions
+
+  return parts.map((part, index) => (
+    <span key={index}>
+      {part}
+      {mentions && mentions[index] && (
+        <Link
+          href={`/${mentions[index].substring(1)}`} // Link to user profile
+          className="text-blue-500   "
+        >
+          {mentions[index]}
+        </Link>
+      )}
+    </span>
+  ));
 };
 
 const MomentPage = () => {
@@ -81,12 +105,10 @@ const MomentPage = () => {
       </div>
 
       <div className="lg:flex md:flex flex-1 flex flex-col md:flex-row overflow-hidden">
-        {/* Sidebar for larger screens */}
         <div className="hidden md:block w-52 lg:w-80 bg-white shadow-md h-full">
           <Sidebar />
         </div>
 
-        {/* Main content */}
         <div className="flex-1 bg-white lg:rounded-lg lg:shadow-md lg:m-10 p-6 lg:p-10 space-y-6 text-gray-800">
           <h1 className="text-2xl font-bold text-gray-900">{moment.title}</h1>
           <p className="text-lg text-gray-700">{moment.caption}</p>
@@ -115,14 +137,13 @@ const MomentPage = () => {
                   className="font-semibold  cursor-pointer"
                 >
                   {moment.user.name}
-                  <p
+                </p>
+                <p
                   onClick={() => router.push(`/${moment.user.id}`)}
                   className="text-xs text-gray-500 font-medium cursor-pointer"
                 >
                   @{moment.user.username}
                 </p>
-                </p>
-               
               </div>
             </div>
           </div>
@@ -139,7 +160,10 @@ const MomentPage = () => {
               });
 
               return (
-                <div key={media.id} className="relative bg-white shadow-md rounded-lg overflow-hidden">
+                <div
+                  key={media.id}
+                  className="relative bg-white shadow-md rounded-lg overflow-hidden"
+                >
                   {media.type === "PHOTO" ? (
                     <Image
                       src={media.url}
@@ -157,7 +181,9 @@ const MomentPage = () => {
                   )}
                   {media.caption && (
                     <div className="p-4">
-                      <p className="text-sm text-gray-800">{media.caption}</p>
+                      <p className="text-sm text-gray-800">
+                        {formatCaption(media.caption)}
+                      </p>
                       <p className="mt-1 text-xs text-gray-500">
                         {formattedMediaDate}
                       </p>
@@ -169,7 +195,6 @@ const MomentPage = () => {
           </div>
         </div>
 
-        {/* Mobile Sidebar */}
         <div className="md:hidden h-12 fixed bottom-0 w-full bg-white border-t border-slate-200">
           <Sidebar isMobile={true} />
         </div>

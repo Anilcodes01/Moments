@@ -6,11 +6,13 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { FaCloudUploadAlt, FaEdit } from "react-icons/fa";
+import MentionTextarea from "./MentionTextArea";
 
 interface MomentSection {
   image: File | null;
   caption: string;
   previewUrl: string | null;
+  mentionedUsers: string[] | null;
 }
 
 const CreateMoment = () => {
@@ -22,7 +24,7 @@ const CreateMoment = () => {
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [coverPreviewUrl, setCoverPreviewUrl] = useState<string | null>(null);
   const [momentSections, setMomentSections] = useState<MomentSection[]>([
-    { image: null, caption: "", previewUrl: null },
+    { image: null, caption: "", previewUrl: null, mentionedUsers:null },
   ]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -97,7 +99,7 @@ const CreateMoment = () => {
   const handleAddMomentSection = () => {
     setMomentSections([
       ...momentSections,
-      { image: null, caption: "", previewUrl: null },
+      { image: null, caption: "", previewUrl: null, mentionedUsers:null },
     ]);
   };
 
@@ -129,6 +131,7 @@ const CreateMoment = () => {
     momentSections.forEach((section, index) => {
       if (section.image) formData.append(`media_${index}`, section.image);
       formData.append(`caption_${index}`, section.caption);
+      formData.append(`mentionedUsers_${index}`, JSON.stringify(section.mentionedUsers))
     });
 
     try {
@@ -226,17 +229,17 @@ const CreateMoment = () => {
                 )}
               </div>
 
-              <textarea
+              <MentionTextarea
   value={section.caption}
-  onChange={(e) => {
-    handleCaptionChange(index, e);
-    e.target.style.height = "auto"; // Reset the height to calculate the new height
-    e.target.style.height = `${e.target.scrollHeight}px`; // Set the height to match the scroll height
+  onChange={(value, mentions) => {
+    const newMomentSections = [...momentSections];
+    newMomentSections[index].caption = value;
+    newMomentSections[index].mentionedUsers = mentions;
+    setMomentSections(newMomentSections);
   }}
-  className="block w-full p-2 text-gray-700 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 outline-none rounded-md resize-none"
   placeholder="Write something about the image..."
-  required
-></textarea>
+  className="min-h-[100px]"
+/>
 
             </div>
           ))}
