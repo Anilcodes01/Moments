@@ -81,6 +81,7 @@ export async function POST(request: Request) {
     const mentionedUsersPromises = Array.from(formData.entries())
       .filter(([key]) => key.startsWith("mentionedUsers_"))
       .map(async ([key, value]) => {
+        console.log(key)
         const mentionedUserIds = JSON.parse(value as string) as string[];
 
         return Promise.all(
