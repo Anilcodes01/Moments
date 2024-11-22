@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import React, { useState, useRef, useEffect } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -165,7 +166,7 @@ const MentionTextarea: React.FC<MentionTextareaProps> = ({
               onClick={() => insertMention(user)}
             >
               {user.avatarUrl ? (
-                <img
+                <Image
                   src={user.avatarUrl}
                   alt={user.name}
                   className="w-6 h-6 rounded-full"

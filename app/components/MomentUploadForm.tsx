@@ -87,14 +87,7 @@ const CreateMoment = () => {
     }
   };
 
-  const handleCaptionChange = (
-    index: number,
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const newMomentSections = [...momentSections];
-    newMomentSections[index].caption = event.target.value;
-    setMomentSections(newMomentSections);
-  };
+
 
   const handleAddMomentSection = () => {
     setMomentSections([
