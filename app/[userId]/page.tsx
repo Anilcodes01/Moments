@@ -2,7 +2,7 @@
 import axios from "axios";
 import { FaUserCircle } from "react-icons/fa";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import MomentProfileCard from "../components/MomentProfileCard";
 import { Settings } from 'lucide-react';
@@ -14,6 +14,7 @@ interface User {
   id: string;
   name: string;
   username: string;
+  bio: string;
   avatarUrl?: string;
   moments?: Moment[];
 }
@@ -30,6 +31,7 @@ export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
   const { userId } = useParams();
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
  
 
   useEffect(() => {
@@ -50,7 +52,7 @@ export default function Profile() {
   }, [userId]);
 
   return (
-    <div className="bg-gradient-to-br min-h-screen from-blue-50 via-purple-50 to-pink-50 bg-yellow-300 text-gray-100 w-full flex flex-col   ">
+    <div className="bg-gradient-to-br mb-10 min-h-screen from-blue-50 via-purple-50 to-pink-50 bg-yellow-300 text-gray-100 w-full flex flex-col   ">
     
 
 <div className="hidden md:block  bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 fixed w-52 lg:w-80 h-full shadow-md">
@@ -68,7 +70,9 @@ export default function Profile() {
             user?.username
           )}
         </div>
-        <div>
+        <div onClick={() => {
+          router.push('/user/edit')
+        }}>
         <UserPen />
         </div>
       </div>
@@ -117,6 +121,9 @@ export default function Profile() {
             )}
             
         </h1>
+        <p className="text-gray-800 text-xs pl-2">
+          {user?.bio}
+        </p>
        
        </div>
       </div>
