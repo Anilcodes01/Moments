@@ -120,6 +120,7 @@ export async function POST(
     return NextResponse.json(
       {
         message: "Error while editing the profile, Please try again later...",
+        error,
       },
       { status: 500 }
     );
