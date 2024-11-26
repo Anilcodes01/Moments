@@ -5,6 +5,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Ellipsis } from "lucide-react";
+import { Heart } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
+import { Send } from 'lucide-react';
+import { Bookmark } from 'lucide-react';
 
 interface User {
   id: string;
@@ -81,6 +85,18 @@ export default function MomentCard({ moment }: { moment: Moment }) {
             No Image
           </div>
         )}
+      </div>
+
+      <div className="mt-2 ml-2 flex justify-between">
+     <div className="flex gap-4">
+     <Heart className="text-gray-700"/>
+      <MessageCircle className="text-gray-700"/>
+      <Send className="text-gray-700"/>
+     </div>
+     <div>
+     <Bookmark className="text-gray-700" />
+     </div>
+
       </div>
 
    
