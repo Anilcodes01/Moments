@@ -127,11 +127,11 @@ export default function MomentCard({ moment }: { moment: Moment }) {
             } hover:text-red-600`}
             onClick={handleLikeToggle}
           >
-            {liked ? <FaHeart size={24} /> : <Heart size={24} />}
+            {liked ? <FaHeart size={22} /> : <Heart size={22} />}
             <div className="text-sm">{likeCount}</div>
           </button>
-      <MessageCircle size={24} className="text-gray-700"/>
-      <Send size={24} className="text-gray-700"/>
+      <MessageCircle size={22} className="text-gray-700"/>
+      <Send size={22} className="text-gray-700"/>
      </div>
      <div>
      <Bookmark size={24} className="text-gray-700" />
