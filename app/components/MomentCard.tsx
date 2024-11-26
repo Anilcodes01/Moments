@@ -3,12 +3,14 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaHeart } from "react-icons/fa";
 import { Ellipsis } from "lucide-react";
 import { Heart } from 'lucide-react';
 import { MessageCircle } from 'lucide-react';
 import { Send } from 'lucide-react';
 import { Bookmark } from 'lucide-react';
+import { useSession } from "next-auth/react";
+import axios from "axios";
 
 interface User {
   id: string;
@@ -22,16 +24,46 @@ interface Moment {
   media?: { url: string }[];
   description?: string;
   user?: User;
+  isLiked: boolean;
+  likeCount : number
+
 }
 
 export default function MomentCard({ moment }: { moment: Moment }) {
+  const [liked, setLiked] = useState(moment.isLiked);
+  const [likeCount, setLikeCount] = useState(moment.likeCount);
   const router = useRouter();
   const imageUrl = moment.coverImage || "";
   const user = moment.user;
   const [isExpanded, setIsExpanded] = useState(false);
-
+  const {data: session} = useSession();
+  const userId = session?.user.id
 
   const toggleDescription = () => setIsExpanded((prev) => !prev);
+
+  const handleLikeToggle = async () => {
+    if(!userId) {
+      console.log('User not logged in');
+      return
+    }
+
+
+    try {
+      if(liked) {
+        await axios.post('/api/moments/unlike', {momentId: moment.id, userId});
+        setLikeCount((prev) => prev-1);
+      } else {
+        await axios.post('/api/moments/like', {momentId: moment.id, userId});
+        setLikeCount((prev) => prev + 1)
+      } 
+      setLiked(!liked);
+    } catch (error) {
+      console.error('Failed to like/unlike the moment:', error)
+    }
+  }
+
+ 
+
 
   return (
     <div className="w-full border-b mb-6 rounded-lg shadow-md p-2 border-slate-200 cursor-pointer bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
@@ -89,12 +121,20 @@ export default function MomentCard({ moment }: { moment: Moment }) {
 
       <div className="mt-2 ml-2 flex justify-between">
      <div className="flex gap-4">
-     <Heart className="text-gray-700"/>
-      <MessageCircle className="text-gray-700"/>
-      <Send className="text-gray-700"/>
+     <button
+            className={`gap-1 flex items-center ${
+              liked ? "text-red-500" : "text-gray-700"
+            } hover:text-red-600`}
+            onClick={handleLikeToggle}
+          >
+            {liked ? <FaHeart size={24} /> : <Heart size={24} />}
+            <div className="text-sm">{likeCount}</div>
+          </button>
+      <MessageCircle size={24} className="text-gray-700"/>
+      <Send size={24} className="text-gray-700"/>
      </div>
      <div>
-     <Bookmark className="text-gray-700" />
+     <Bookmark size={24} className="text-gray-700" />
      </div>
 
       </div>

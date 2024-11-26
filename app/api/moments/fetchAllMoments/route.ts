@@ -1,11 +1,15 @@
+import { authOptions } from "@/app/lib/authOptions";
 import { prisma } from "@/app/lib/prisma";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 export const revalidate = 0;
 
-
 export const GET = async () => {
   try {
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
+
     const moments = await prisma.moment.findMany({
       select: {
         id: true,
@@ -19,13 +23,32 @@ export const GET = async () => {
             avatarUrl: true,
           },
         },
+        likes: {
+          where: {
+            userId: userId,
+          },
+          select: {
+            userId: true,
+          },
+        },
+        _count: {
+          select: {
+            likes: true,
+          },
+        },
       },
     });
+
+    const momentWithStatus = moments.map((moment) => ({
+      ...moment,
+      isLiked: moment.likes.length > 0,
+      likeCount: moment._count.likes,
+    }));
 
     return NextResponse.json(
       {
         message: "Moments fetched successfully...!",
-        moments,
+        moments: momentWithStatus,
       },
       {
         status: 200,

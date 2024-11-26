@@ -24,6 +24,8 @@ interface Moment {
   coverImage?: string;
   media?: { url: string }[];
   user?: User;
+  isLiked: boolean;
+  likeCount: number
 }
 
 export default function Home() {

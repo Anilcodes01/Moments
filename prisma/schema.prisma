@@ -24,8 +24,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
 
-  moments Moment[]
+  moments         Moment[]
   taggedInMoments MomentToUser[]
+  likes           Like[]
 }
 
 model Moment {
@@ -39,7 +40,8 @@ model Moment {
   user        User?    @relation(fields: [userId], references: [id])
 
   media Media[]
-  tags MomentToUser[]
+  tags  MomentToUser[]
+  likes Like[]
 }
 
 model Media {
@@ -55,11 +57,21 @@ model Media {
 }
 
 model MomentToUser {
-  id String @id @default(uuid())
+  id       String @id @default(uuid())
   momentId String
-  userId String
-  moment Moment @relation(fields: [momentId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  moment   Moment @relation(fields: [momentId], references: [id], onDelete: Cascade)
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([momentId, userId])
+}
+
+model Like {
+  id       String  @id @default(uuid())
+  momentId String
+  moment   Moment? @relation(fields: [momentId], references: [id])
+  userId   String
+  user     User    @relation(fields: [userId], references: [id])
 
   @@unique([momentId, userId])
 }
