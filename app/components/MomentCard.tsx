@@ -124,11 +124,11 @@ export default function MomentCard({ moment }: { moment: Moment }) {
      <button
             className={`gap-1 flex items-center ${
               liked ? "text-red-500" : "text-gray-700"
-            } hover:text-red-600`}
+            }  `}
             onClick={handleLikeToggle}
           >
             {liked ? <FaHeart size={22} /> : <Heart size={22} />}
-            <div className="text-sm">{likeCount}</div>
+            {likeCount > 0 && <div className="text-sm">{likeCount}</div>}
           </button>
       <MessageCircle size={22} className="text-gray-700"/>
       <Send size={22} className="text-gray-700"/>
