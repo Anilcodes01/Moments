@@ -1,5 +1,4 @@
 import { prisma } from "@/app/lib/prisma";
-import { error } from "console";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -19,6 +18,8 @@ export async function POST(req: Request) {
         userId,
       },
     });
+
+    console.log("Deleted likes count:", result.count);
 
     return NextResponse.json(
       {
