@@ -2,6 +2,7 @@ import { authOptions } from "@/app/lib/authOptions";
 import { prisma } from "@/app/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
+import { Visibility } from "@prisma/client";
 
 export const revalidate = 0;
 
@@ -11,6 +12,10 @@ export const GET = async () => {
     const userId = session?.user.id;
 
     const moments = await prisma.moment.findMany({
+      where: {
+        // Filter for only public moments
+        visibility: Visibility.PUBLIC
+      },
       select: {
         id: true,
         coverImage: true,
@@ -47,7 +52,7 @@ export const GET = async () => {
 
     return NextResponse.json(
       {
-        message: "Moments fetched successfully...!",
+        message: "Public moments fetched successfully...!",
         moments: momentWithStatus,
       },
       {

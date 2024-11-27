@@ -25,6 +25,7 @@ interface Moment {
   caption: string;
   createdAt: string;
   coverImage: string;
+  visibility: "PUBLIC" | "PRIVATE" 
 }
 
 export default function Profile() {
@@ -32,6 +33,8 @@ export default function Profile() {
   const { userId } = useParams();
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+
+  const [momentFilter, setMomentFilter] = useState<"PUBLIC" | "COLLABORATIVE" | "PRIVATE">("PUBLIC");
 
   useEffect(() => {
     if (!userId) return;
@@ -49,6 +52,20 @@ export default function Profile() {
 
     fetchUserDetails();
   }, [userId]);
+
+
+  const filteredMoments = user?.moments?.filter(moment => {
+    switch (momentFilter) {
+      case "PUBLIC":
+        return moment.visibility === "PUBLIC";
+      case "COLLABORATIVE":
+        return moment.visibility === "PUBLIC";
+      case "PRIVATE":
+        return moment.visibility === "PRIVATE";
+      default:
+        return true;
+    }
+  }) || [];
 
   return (
     <div className="bg-gradient-to-br mb-10 min-h-screen from-blue-50 via-purple-50 to-pink-50 bg-yellow-300 text-gray-100 w-full flex flex-col   ">
@@ -122,40 +139,61 @@ export default function Profile() {
         </div>
 
         {/* Moment Filters */}
-        <div className="flex mt-8 gap-4 lg:w-full   justify-around border-b border-slate-200 pb-2 ">
-          <button className=" text-gray-800 hover:text-gray-800 focus:text-blue-600  focus:border-blue-600 transition">
-            Shared
-          </button>
-          <button className=" text-gray-800 hover:text-gray-800 focus:text-blue-600  focus:border-blue-600 transition">
-            Collaborative
-          </button>
-          <button className=" text-gray-800 hover:text-gray-800 focus:text-blue-600  focus:border-blue-600 transition">
-            Private
-          </button>
-        </div>
+        <div className="flex mt-8 gap-4 lg:w-full justify-around border-b border-slate-200 pb-2">
+        <button 
+          onClick={() => setMomentFilter("PUBLIC")}
+          className={`text-gray-800 hover:text-gray-800 transition ${
+            momentFilter === "PUBLIC" 
+              ? "text-blue-600 border-b-2 border-blue-600" 
+              : ""
+          }`}
+        >
+          Public
+        </button>
+        <button 
+          onClick={() => setMomentFilter("COLLABORATIVE")}
+          className={`text-gray-800 hover:text-gray-800 transition ${
+            momentFilter === "COLLABORATIVE" 
+              ? "text-blue-600 border-b-2 border-blue-600" 
+              : ""
+          }`}
+        >
+          Collaborative
+        </button>
+        <button 
+          onClick={() => setMomentFilter("PRIVATE")}
+          className={`text-gray-800 hover:text-gray-800 transition ${
+            momentFilter === "PRIVATE" 
+              ? "text-blue-600 border-b-2 border-blue-600" 
+              : ""
+          }`}
+        >
+          Private
+        </button>
+      </div>
 
         {/* Moment Cards */}
         <div className="lg:mt-4 mt-2 w-full max-w-4xl mb-4 pl-2 lg:px-4 pr-2 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {loading ? (
-            Array.from({ length: 4 }).map((_, index) => (
-              <div
-                key={index}
-                className="animate-pulse bg-gray-200 h-64 rounded-md"
-              ></div>
-            ))
-          ) : user?.moments?.length ? (
-            user.moments.map((moment) => (
-              <MomentProfileCard key={moment.id} moment={moment} />
-            ))
-          ) : (
-            <div className="flex flex-col justify-center items-center w-full col-span-2 md:col-span-3 h-64  rounded-md">
-              <BookHeart size={48} className="text-gray-400 mb-2" />
-              <p className="text-gray-400 font-semibold">
-                Begin your collection of memories!
-              </p>
-            </div>
-          )}
-        </div>
+        {loading ? (
+          Array.from({ length: 4 }).map((_, index) => (
+            <div
+              key={index}
+              className="animate-pulse bg-gray-200 h-64 rounded-md"
+            ></div>
+          ))
+        ) : filteredMoments.length ? (
+          filteredMoments.map((moment) => (
+            <MomentProfileCard key={moment.id} moment={moment} />
+          ))
+        ) : (
+          <div className="flex flex-col justify-center items-center w-full col-span-2 md:col-span-3 h-64 rounded-md">
+            <BookHeart size={48} className="text-gray-400 mb-2" />
+            <p className="text-gray-400 font-semibold">
+              No moments in this category
+            </p>
+          </div>
+        )}
+      </div>
       </div>
 
       <div className="md:hidden h-12  fixed bottom-0 w-full   shadow-md border-t border-slate-200">

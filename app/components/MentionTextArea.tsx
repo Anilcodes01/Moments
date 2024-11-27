@@ -149,7 +149,7 @@ const MentionTextarea: React.FC<MentionTextareaProps> = ({
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
-        className={`block w-full p-2 bg-white border border-gray-300 outline-none rounded-md text-gray-700 resize-none ${className}`}
+        className={`block w-full p-2   border-gray-300 outline-none rounded-md text-gray-700 resize-none ${className}`}
       />
       {showSuggestions && suggestions.length > 0 && (
         <div

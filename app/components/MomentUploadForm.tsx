@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { compressImage } from '@/app/utils/fileHelpers';
+import { compressImage } from "@/app/utils/fileHelpers";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { FaCloudUploadAlt, FaEdit } from "react-icons/fa";
+import { FaCloudUploadAlt, FaEdit, FaLock, FaGlobe } from "react-icons/fa";
 import MentionTextarea from "./MentionTextArea";
 
 interface MomentSection {
@@ -21,10 +21,12 @@ const CreateMoment = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  const [visibility, setVisibility] = useState<"PUBLIC" | "PRIVATE">("PUBLIC")
+
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [coverPreviewUrl, setCoverPreviewUrl] = useState<string | null>(null);
   const [momentSections, setMomentSections] = useState<MomentSection[]>([
-    { image: null, caption: "", previewUrl: null, mentionedUsers:null },
+    { image: null, caption: "", previewUrl: null, mentionedUsers: null },
   ]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -44,18 +46,18 @@ const CreateMoment = () => {
     if (event.target.files && event.target.files[0]) {
       try {
         const file = event.target.files[0];
-        
+
         if (file.size > 10 * 1024 * 1024) {
-          alert('File is too large. Please select an image under 10MB.');
+          alert("File is too large. Please select an image under 10MB.");
           return;
         }
-  
+
         const compressedFile = await compressImage(file);
         setCoverImage(compressedFile);
         setCoverPreviewUrl(URL.createObjectURL(compressedFile));
       } catch (error) {
-        console.error('Error compressing image:', error);
-        alert('Error processing image. Please try again.');
+        console.error("Error compressing image:", error);
+        alert("Error processing image. Please try again.");
       }
     }
   };
@@ -67,32 +69,32 @@ const CreateMoment = () => {
     if (event.target.files && event.target.files[0]) {
       try {
         const file = event.target.files[0];
-        
+
         // Check file size before compression
-        if (file.size > 10 * 1024 * 1024) { // 10MB
-          alert('File is too large. Please select an image under 10MB.');
+        if (file.size > 10 * 1024 * 1024) {
+          // 10MB
+          alert("File is too large. Please select an image under 10MB.");
           return;
         }
-  
+
         // Compress the image
         const compressedFile = await compressImage(file);
         const newMomentSections = [...momentSections];
         newMomentSections[index].image = compressedFile;
-        newMomentSections[index].previewUrl = URL.createObjectURL(compressedFile);
+        newMomentSections[index].previewUrl =
+          URL.createObjectURL(compressedFile);
         setMomentSections(newMomentSections);
       } catch (error) {
-        console.error('Error compressing image:', error);
-        alert('Error processing image. Please try again.');
+        console.error("Error compressing image:", error);
+        alert("Error processing image. Please try again.");
       }
     }
   };
 
-
-
   const handleAddMomentSection = () => {
     setMomentSections([
       ...momentSections,
-      { image: null, caption: "", previewUrl: null, mentionedUsers:null },
+      { image: null, caption: "", previewUrl: null, mentionedUsers: null },
     ]);
   };
 
@@ -117,6 +119,7 @@ const CreateMoment = () => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
+    formData.append('visibility', visibility);
     if (coverImage) {
       formData.append("coverImage", coverImage);
     }
@@ -124,7 +127,10 @@ const CreateMoment = () => {
     momentSections.forEach((section, index) => {
       if (section.image) formData.append(`media_${index}`, section.image);
       formData.append(`caption_${index}`, section.caption);
-      formData.append(`mentionedUsers_${index}`, JSON.stringify(section.mentionedUsers))
+      formData.append(
+        `mentionedUsers_${index}`,
+        JSON.stringify(section.mentionedUsers)
+      );
     });
 
     try {
@@ -145,13 +151,35 @@ const CreateMoment = () => {
     }
   };
 
+
+
+  const PrivacyToggle = () => (
+    <div className="flex items-center  mb-6">
+      <div 
+        className={`flex items-center px-4 py-2 text-sm rounded-full cursor-pointer transition-colors duration-300 ${
+          visibility === "PUBLIC" 
+            ? 'bg-green-100 text-green-700' 
+            : 'bg-red-100 text-red-700'
+        }`}
+        onClick={() => setVisibility(visibility === "PUBLIC" ? "PRIVATE" : "PUBLIC")}
+      >
+        {visibility === "PUBLIC" ? <FaGlobe className="mr-2" /> : <FaLock className="mr-2" />}
+        <span className="font-semibold">
+          {visibility === "PUBLIC" ? 'Public Moment' : 'Private Moment'}
+        </span>
+      </div>
+    </div>
+  );
+
   return (
     <form
       onSubmit={handleSubmit}
       className="space-y-6 min-h-screen lg:w-full md:w-full bg-gradient-to-br mb-10 from-blue-50 via-purple-50  to-pink-50 text-gray-700 p-6 pt-16"
     >
+
       {currentStep === 1 ? (
         <>
+        <PrivacyToggle />
           <div className="mb-6">
             <input
               type="text"
@@ -163,6 +191,8 @@ const CreateMoment = () => {
               required
             />
           </div>
+
+          
 
           {momentSections.map((section, index) => (
             <div key={index} className="flex flex-col gap-6 mb-6">
@@ -216,24 +246,26 @@ const CreateMoment = () => {
                       document.getElementById(`imageUpload-${index}`)?.click()
                     }
                   >
-                    <FaCloudUploadAlt size={40} className="mr-2 text-gray-700" />
+                    <FaCloudUploadAlt
+                      size={40}
+                      className="mr-2 text-gray-700"
+                    />
                     <span className="text-gray-700">Upload Image</span>
                   </div>
                 )}
               </div>
 
               <MentionTextarea
-  value={section.caption}
-  onChange={(value, mentions) => {
-    const newMomentSections = [...momentSections];
-    newMomentSections[index].caption = value;
-    newMomentSections[index].mentionedUsers = mentions;
-    setMomentSections(newMomentSections);
-  }}
-  placeholder="Write something about the image..."
-  className="min-h-[100px]"
-/>
-
+                value={section.caption}
+                onChange={(value, mentions) => {
+                  const newMomentSections = [...momentSections];
+                  newMomentSections[index].caption = value;
+                  newMomentSections[index].mentionedUsers = mentions;
+                  setMomentSections(newMomentSections);
+                }}
+                placeholder="Write something about the image..."
+                className="min-h-[100px]"
+              />
             </div>
           ))}
 
@@ -310,3 +342,7 @@ const CreateMoment = () => {
 };
 
 export default CreateMoment;
+
+
+
+

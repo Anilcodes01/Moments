@@ -38,6 +38,7 @@ model Moment {
   coverImage  String
   userId      String?
   user        User?    @relation(fields: [userId], references: [id])
+  visibility Visibility 
 
   media Media[]
   tags  MomentToUser[]
@@ -79,4 +80,10 @@ model Like {
 enum MediaType {
   PHOTO
   VIDEO
+}
+
+
+enum Visibility {
+  PUBLIC
+  PRIVATE
 }

@@ -24,6 +24,7 @@ export async function POST(request: Request) {
     const formData = await request.formData();
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
+    const visibility = (formData.get("visibility") as "PUBLIC" | "PRIVATE") || "PRIVATE";
     const coverImageFile = formData.get("coverImage") as File | null;
 
     let coverImageUrl = "";
@@ -44,6 +45,7 @@ export async function POST(request: Request) {
         title,
         description,
         coverImage: coverImageUrl,
+        visibility,
         userId: session.user.id,
       },
     });
