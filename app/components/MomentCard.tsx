@@ -140,7 +140,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
       </div>
 
    
-      <div className="mt-4 ml-2 mb-4 text-gray-800 text-sm">
+      <div className="mt-2 ml-2 mb-4 text-gray-800 text-sm">
         <span className="font-bold mr-2">{moment.user?.name}</span>
         <span className="break-words text-sm">
           {moment.description ? (
@@ -148,7 +148,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
               {isExpanded ? (
                 moment.description
               ) : (
-                `${moment.description.slice(0, 30)}...`
+                `${moment.description.slice(0, 35)}...`
               )}
               {moment.description.length > 100 && (
                 <button
@@ -160,7 +160,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
               )}
             </>
           ) : (
-            "No description provided."
+            ""
           )}
         </span>
       </div>
