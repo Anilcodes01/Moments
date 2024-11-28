@@ -1,6 +1,7 @@
 
 'use client'
-import React, { createContext, useState, useContext,  ReactNode } from 'react';
+// contexts/UserContext.tsx
+import React, { createContext, useState, useContext, useCallback, ReactNode } from 'react';
 import axios from 'axios';
 
 interface User {
@@ -37,8 +38,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const fetchUser = async (userId: string) => {
-   
+  const fetchUser = useCallback(async (userId: string) => {
+    // If user is already loaded and the ID matches, don't fetch again
     if (user && user.id === userId) return;
 
     setLoading(true);
@@ -51,7 +52,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]); // Add user as a dependency to prevent unnecessary calls
 
   return (
     <UserContext.Provider value={{ user, loading, fetchUser }}>
@@ -60,7 +61,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   );
 };
 
-
+// Custom hook to use user context
 export const useUser = () => {
   const context = useContext(UserContext);
   if (!context) {

@@ -1,5 +1,6 @@
 'use client'
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+// contexts/MomentContext.tsx
+import React, { createContext, useState, useContext, useEffect, ReactNode, useCallback } from 'react';
 import axios from 'axios';
 
 interface User {
@@ -41,8 +42,8 @@ export const MomentProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchMoments = async () => {
-    
+  const fetchMoments = useCallback(async () => {
+    // If moments are already loaded, don't fetch again
     if (moments.length > 0) return;
 
     setLoading(true);
@@ -63,7 +64,7 @@ export const MomentProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     } finally {
       setLoading(false);
     }
-  };
+  }, [moments.length]); // Add moments.length as a dependency
 
   return (
     <MomentContext.Provider value={{ moments, loading, error, fetchMoments }}>
@@ -72,7 +73,7 @@ export const MomentProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   );
 };
 
-
+// Custom hook to use moment context
 export const useMoments = () => {
   const context = useContext(MomentContext);
   if (!context) {

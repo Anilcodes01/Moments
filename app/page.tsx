@@ -23,7 +23,7 @@ export default function Home() {
 
     fetchMoments();
 
-  }, [ session]);
+  }, [ session, moments, fetchMoments]);
 
   return (
     <div className="bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 text-white min-h-screen flex flex-col">

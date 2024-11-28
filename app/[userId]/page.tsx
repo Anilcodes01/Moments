@@ -27,7 +27,7 @@ export default function Profile() {
     if (!userId) return;
 
     fetchUser(userId as string);
-  }, [userId]);
+  }, [userId, fetchUser]);
 
 
   const filteredMoments = user?.moments?.filter(moment => {
