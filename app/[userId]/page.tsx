@@ -1,5 +1,4 @@
 "use client";
-import axios from "axios";
 import { FaUserCircle } from "react-icons/fa";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
@@ -9,48 +8,25 @@ import { Settings } from "lucide-react";
 import { UserPen } from "lucide-react";
 import Sidebar from "../components/sidebar";
 import { BookHeart } from "lucide-react";
+import { useUser } from "../contexts/UserContext";
 
-interface User {
-  id: string;
-  name: string;
-  username: string;
-  bio: string;
-  avatarUrl?: string;
-  moments?: Moment[];
-}
 
-interface Moment {
-  id: string;
-  title: string;
-  caption: string;
-  createdAt: string;
-  coverImage: string;
-  visibility: "PUBLIC" | "PRIVATE" 
-}
+
+
 
 export default function Profile() {
-  const [user, setUser] = useState<User | null>(null);
+
   const { userId } = useParams();
-  const [loading, setLoading] = useState(true);
+
   const router = useRouter();
+  const { user, loading, fetchUser } = useUser();
 
   const [momentFilter, setMomentFilter] = useState<"PUBLIC" | "COLLABORATIVE" | "PRIVATE">("PUBLIC");
 
   useEffect(() => {
     if (!userId) return;
 
-    const fetchUserDetails = async () => {
-      try {
-        const response = await axios.get(`/api/user/${userId}`);
-        setUser(response.data.user);
-      } catch (error) {
-        console.error("Error fetching user details:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserDetails();
+    fetchUser(userId as string);
   }, [userId]);
 
 
