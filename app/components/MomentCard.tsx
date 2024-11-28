@@ -166,7 +166,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
             onClick={handleBookmarkToggle}
           >
             {bookmarked ? (
-              <FaBookmark size={22} />
+              <FaBookmark size={20} />
             ) : (
               <Bookmark size={22} />
             )}
