@@ -36,6 +36,14 @@ export const GET = async () => {
             userId: true,
           },
         },
+        bookmarks: {
+          where: {
+            userId: userId
+          },
+          select: {
+            userId: true
+          }
+        },
         _count: {
           select: {
             likes: true,
@@ -47,6 +55,7 @@ export const GET = async () => {
     const momentWithStatus = moments.map((moment) => ({
       ...moment,
       isLiked: moment.likes.length > 0,
+      isBookmarked: moment.bookmarks.length > 0,
       likeCount: moment._count.likes,
     }));
 
