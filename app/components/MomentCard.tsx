@@ -11,6 +11,7 @@ import { Send } from 'lucide-react';
 import { Bookmark } from 'lucide-react';
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import { useMoments } from "../contexts/MomentContext";
 
 interface User {
   id: string;
@@ -38,6 +39,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const {data: session} = useSession();
   const userId = session?.user.id
+  const { updateMomentLike } = useMoments(); 
 
   const toggleDescription = () => setIsExpanded((prev) => !prev);
 
@@ -52,9 +54,11 @@ export default function MomentCard({ moment }: { moment: Moment }) {
       if(liked) {
         await axios.post('/api/moments/unlike', {momentId: moment.id, userId});
         setLikeCount((prev) => prev-1);
+        updateMomentLike(moment.id, false); 
       } else {
         await axios.post('/api/moments/like', {momentId: moment.id, userId});
         setLikeCount((prev) => prev + 1)
+        updateMomentLike(moment.id, true); 
       } 
       setLiked(!liked);
     } catch (error) {

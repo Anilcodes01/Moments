@@ -1,5 +1,4 @@
 'use client'
-// contexts/MomentContext.tsx
 import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
 import axios from 'axios';
 
@@ -28,13 +27,15 @@ interface MomentContextType {
   loading: boolean;
   error: string | null;
   fetchMoments: () => Promise<void>;
+  updateMomentLike: (momentId: string, isLiked: boolean) => void;
 }
 
 const MomentContext = createContext<MomentContextType>({
   moments: [],
   loading: false,
   error: null,
-  fetchMoments: async () => {}
+  fetchMoments: async () => {},
+  updateMomentLike: () => {}
 });
 
 export const MomentProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -64,10 +65,30 @@ export const MomentProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     } finally {
       setLoading(false);
     }
-  }, [moments.length]); // Add moments.length as a dependency
+  }, [moments.length]);
+
+  const updateMomentLike = useCallback((momentId: string, isLiked: boolean) => {
+    setMoments(prevMoments => 
+      prevMoments.map(moment => 
+        moment.id === momentId 
+          ? { 
+              ...moment, 
+              isLiked, 
+              likeCount: isLiked ? moment.likeCount + 1 : moment.likeCount - 1 
+            } 
+          : moment
+      )
+    );
+  }, []);
 
   return (
-    <MomentContext.Provider value={{ moments, loading, error, fetchMoments }}>
+    <MomentContext.Provider value={{ 
+      moments, 
+      loading, 
+      error, 
+      fetchMoments, 
+      updateMomentLike 
+    }}>
       {children}
     </MomentContext.Provider>
   );
