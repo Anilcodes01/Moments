@@ -12,11 +12,11 @@ export default function UploadPage() {
       </div>
 
     <div className='flex'>
-    <div className="hidden md:block w-52 pt-12 lg:w-80 bg-white shadow-md h-full">
+    <div className="hidden md:block fixed w-52 pt-12 lg:w-64 bg-white shadow-md h-full">
           <Sidebar />
         </div>
       
-      <div className='bg-gradient-to-br min-h-screen md:w-full md:p-8 w-full  from-blue-50 via-purple-50  to-pink-50'>
+      <div className='bg-gradient-to-br md:ml-52 min-h-screen md:w-full md:p-8 w-full  from-blue-50 via-purple-50 flex items-center  to-pink-50'>
       <MomentUploadForm />
       </div>
     </div>

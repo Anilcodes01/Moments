@@ -54,14 +54,14 @@ export default function EditProfilePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="h-16">
+      <div className="h-12">
         <Appbar />
       </div>
       <div className="flex">
-        <div className="hidden md:block fixed w-52 lg:w-80 h-full">
+        <div className="hidden md:block fixed w-52 lg:w-64 h-full">
           <Sidebar />
         </div>
-        <div className="w-full ml-0 md:ml-52 lg:ml-80 min-h-screen lg:mr-52 border-r border-l border-gray-200">
+        <div className="w-full ml-0 md:ml-52 lg:ml-80 min-h-screen lg:mr-52 border-gray-200">
           <EditProfileForm />
         </div>
       </div>

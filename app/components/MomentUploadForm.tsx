@@ -174,7 +174,7 @@ const CreateMoment = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 min-h-screen lg:w-full md:w-full bg-gradient-to-br mb-10 from-blue-50 via-purple-50  to-pink-50 text-gray-700 p-6 pt-16"
+      className="space-y-6 min-h-screen lg:ml-48 lg:w-2/3 md:w-full bg-yellow-300 bg-gradient-to-br mb-10 from-blue-50 via-purple-50  to-pink-50 text-gray-700 p-6 pt-16"
     >
 
       {currentStep === 1 ? (

@@ -68,13 +68,13 @@ export default function Profile() {
   }) || [];
 
   return (
-    <div className="bg-gradient-to-br mb-10 min-h-screen from-blue-50 via-purple-50 to-pink-50 bg-yellow-300 text-gray-100 w-full flex flex-col   ">
-      <div className="hidden md:block  bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 fixed w-52 lg:w-80 h-full shadow-md">
+    <div className="bg-gradient-to-br mb- min-h-screen from-blue-50 via-purple-50 to-pink-50 bg-yellow-300 text-gray-100 w-full flex flex-col   ">
+      <div className="hidden md:block  bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 fixed w-52 lg:w-64 h-full shadow-md">
         <Sidebar />
       </div>
 
-      <div className="text-gray-800 h-12 md:ml-52 lg:ml-80 flex justify-around items-center border-slate-200 border-b">
-        <div>
+      <div className="text-gray-800 h-12 md:ml-52 lg:ml-64 flex justify-around items-center border-slate-200 border-b">
+        <div className="">
           <Settings />
         </div>
         <div className="text-gray-800 font-bold ">
@@ -93,7 +93,7 @@ export default function Profile() {
         </div>
       </div>
 
-      <div className="md:ml-52 lg:ml-80 min-h-screen  ">
+      <div className="md:ml-52 lg:ml-64 min-h-screen  ">
         {/* User Avatar and Name */}
         <div className="flex flex-col px-2   w-full ">
           <div className="  flex lg:w-full  lg:justify-around items-center gap-2  ">
@@ -173,7 +173,7 @@ export default function Profile() {
       </div>
 
         {/* Moment Cards */}
-        <div className="lg:mt-4 mt-2 w-full max-w-4xl mb-4 pl-2 lg:px-4 pr-2 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="lg:mt-4 mt-2 lg:ml-36 w-full max-w-4xl mb-4 pl-2 lg:px-4 pr-2 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {loading ? (
           Array.from({ length: 4 }).map((_, index) => (
             <div

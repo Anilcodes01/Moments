@@ -2,9 +2,9 @@
 
 
 export default function MomentSkeleton() {
-    return <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50">
+    return <div className="min-h-screen bg-gradient-to-br  from-blue-50 via-purple-50  to-pink-50">
         
-        <div className=" animate-pulse min-h-screen ">
+        <div className=" animate-pulse min-h-screen  ">
             <div className="flex flex-col">
                 <div className="flex gap-2 mb-4 items-center">
                     <div className="rounded-full h-12 w-12 bg-gray-200"></div>

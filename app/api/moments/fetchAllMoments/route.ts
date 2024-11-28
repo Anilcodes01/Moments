@@ -13,7 +13,7 @@ export const GET = async () => {
 
     const moments = await prisma.moment.findMany({
       where: {
-        // Filter for only public moments
+        
         visibility: Visibility.PUBLIC
       },
       select: {

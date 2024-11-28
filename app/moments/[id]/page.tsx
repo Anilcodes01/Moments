@@ -105,17 +105,17 @@ const MomentPage = () => {
   if (!moment) return <p>Moment not found.</p>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 mb-12 to-pink-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 mb-10 md:mb-0 to-pink-50">
       <div className="h-12">
         <Appbar />
       </div>
 
       <div className="lg:flex md:flex flex-1 flex flex-col md:flex-row overflow-hidden">
-        <div className="hidden md:block w-52 lg:w-80 bg-white shadow-md h-full">
+        <div className="hidden fixed md:block w-52 lg:w-64 bg-white shadow-md h-full">
           <Sidebar />
         </div>
 
-        <div className="flex-1 bg-white lg:rounded-lg lg:shadow-md lg:m-10 p-6 lg:p-10 space-y-6 text-gray-800">
+        <div className="flex-1 bg-white lg:rounded-lg md:ml-52 lg:ml-72 lg:shadow-md lg:m-6 p-6 lg:p-10 space-y-6 text-gray-800">
           <h1 className="text-2xl font-bold text-gray-900">{moment.title}</h1>
           <p className="text-lg text-gray-700">{moment.caption}</p>
 
@@ -168,14 +168,15 @@ const MomentPage = () => {
               return (
                 <div
                   key={media.id}
-                  className="relative bg-white shadow-md rounded-lg overflow-hidden"
+                  className="relative  bg-white shadow-md rounded-lg overflow-hidden"
                 >
                   {media.type === "PHOTO" ? (
                     <Image
                       src={media.url}
-                      height={200}
+                      height={500}
                       alt={media.caption}
-                      width={200}
+                      width={500}
+                      quality={75}
                       className="w-full h-48 object-cover"
                     />
                   ) : (

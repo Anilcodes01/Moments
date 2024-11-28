@@ -25,8 +25,8 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
     <Image
       src={src}
       alt={alt}
-      width={size}
-      height={size}
+      width={80}
+      height={80}
       className={`rounded-full object-cover ${className}`}
       style={{ width: size, height: size }}
     />

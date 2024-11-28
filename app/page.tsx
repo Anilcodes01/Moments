@@ -70,20 +70,20 @@ export default function Home() {
 
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         {/* Sidebar for Desktop */}
-        <div className="hidden md:block w-52  lg:w-64  shadow-md h-full">
+        <div className="hidden md:block w-52  fixed lg:w-64  shadow-md h-full">
           <Sidebar />
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 overflow-auto mt-4  pl-4 pr-4 mb-16 lg:mr-52 border-r lg:px-10">
+        <div className="flex-1 overflow-auto items-center mt-4  pl-4 pr-4 mb-16 lg:mr-52  lg:px-10">
           {loading ? (
-            <div className="text-center text-gray-700 text-lg">
+            <div className="text-center md:ml-52 lg:ml-96 lg:w-2/3 text-gray-700 text-lg">
               <MomentSkeleton />
             </div>
           ) : error ? (
             <div className="text-center text-red-600 text-lg">{error}</div>
           ) : (
-            <div className="  ">
+            <div className=" flex flex-col md:ml-52 items-center ">
               {moments.map((moment) => (
                 <MomentCard key={moment.id} moment={moment} />
               ))}
