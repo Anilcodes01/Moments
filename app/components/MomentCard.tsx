@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaUserCircle, FaHeart } from "react-icons/fa";
+import { FaUserCircle, FaHeart, FaBookmark } from "react-icons/fa";
 import { Ellipsis } from "lucide-react";
 import { Heart } from 'lucide-react';
 import { MessageCircle } from 'lucide-react';
@@ -26,20 +26,23 @@ interface Moment {
   description?: string;
   user?: User;
   isLiked: boolean;
-  likeCount : number
+  likeCount : number;
+  isBookmarked: boolean
 
 }
 
 export default function MomentCard({ moment }: { moment: Moment }) {
   const [liked, setLiked] = useState(moment.isLiked);
   const [likeCount, setLikeCount] = useState(moment.likeCount);
+  const [bookmarked, setBookmarked] = useState(moment.isBookmarked);
   const router = useRouter();
   const imageUrl = moment.coverImage || "";
   const user = moment.user;
   const [isExpanded, setIsExpanded] = useState(false);
   const {data: session} = useSession();
   const userId = session?.user.id
-  const { updateMomentLike } = useMoments(); 
+  const { updateMomentLike, updateMomentBookmark } = useMoments(); 
+  
 
   const toggleDescription = () => setIsExpanded((prev) => !prev);
 
@@ -66,6 +69,24 @@ export default function MomentCard({ moment }: { moment: Moment }) {
     }
   }
 
+  const handleBookmarkToggle = async () => {
+    if(!userId) {
+      console.error('User not logged in');
+      return
+    } 
+
+    try {
+      if(bookmarked) {
+        await axios.post('/api/moments/unbookmark', {momentId: moment.id })
+      } else {
+        await axios.post('/api/moments/bookmark', {momentId: moment.id})
+      }
+      setBookmarked(!bookmarked)
+      updateMomentBookmark(moment.id, !bookmarked);
+    } catch (error) {
+      console.error('Failed to bookmark/unbookmark the moment:', error)
+    }
+  }
  
 
 
@@ -138,7 +159,18 @@ export default function MomentCard({ moment }: { moment: Moment }) {
       <Send size={22} className="text-gray-700"/>
      </div>
      <div>
-     <Bookmark size={24} className="text-gray-700" />
+     <button
+            className={`gap-1 flex items-center ${
+              bookmarked ? "text-green-600" : "text-gray-700"
+            } hover:text-green-600`}
+            onClick={handleBookmarkToggle}
+          >
+            {bookmarked ? (
+              <FaBookmark size={22} />
+            ) : (
+              <Bookmark size={22} />
+            )}
+          </button>
      </div>
 
       </div>

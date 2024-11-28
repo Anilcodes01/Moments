@@ -1,4 +1,5 @@
-'use client'
+"use client";
+
 import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
 import axios from 'axios';
 
@@ -20,6 +21,7 @@ interface Moment {
   user?: User;
   isLiked: boolean;
   likeCount: number;
+  isBookmarked: boolean;
 }
 
 interface MomentContextType {
@@ -28,6 +30,7 @@ interface MomentContextType {
   error: string | null;
   fetchMoments: () => Promise<void>;
   updateMomentLike: (momentId: string, isLiked: boolean) => void;
+  updateMomentBookmark: (momentId: string, isBookmarked: boolean) => void;
 }
 
 const MomentContext = createContext<MomentContextType>({
@@ -35,7 +38,8 @@ const MomentContext = createContext<MomentContextType>({
   loading: false,
   error: null,
   fetchMoments: async () => {},
-  updateMomentLike: () => {}
+  updateMomentLike: () => {},
+  updateMomentBookmark: () => {}
 });
 
 export const MomentProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -81,13 +85,24 @@ export const MomentProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     );
   }, []);
 
+  const updateMomentBookmark = useCallback((momentId: string, isBookmarked: boolean) => {
+    setMoments(prevMoments => 
+      prevMoments.map(moment => 
+        moment.id === momentId 
+          ? { ...moment, isBookmarked } 
+          : moment
+      )
+    );
+  }, []);
+
   return (
     <MomentContext.Provider value={{ 
       moments, 
       loading, 
       error, 
       fetchMoments, 
-      updateMomentLike 
+      updateMomentLike,
+      updateMomentBookmark
     }}>
       {children}
     </MomentContext.Provider>
