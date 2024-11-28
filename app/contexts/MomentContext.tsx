@@ -1,6 +1,6 @@
 'use client'
 // contexts/MomentContext.tsx
-import React, { createContext, useState, useContext, useEffect, ReactNode, useCallback } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
 import axios from 'axios';
 
 interface User {
