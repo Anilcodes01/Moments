@@ -162,7 +162,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
      <button
             className={`gap-1 flex items-center ${
               bookmarked ? "text-green-600" : "text-gray-700"
-            } hover:text-green-600`}
+            } `}
             onClick={handleBookmarkToggle}
           >
             {bookmarked ? (
