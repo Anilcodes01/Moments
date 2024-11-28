@@ -161,7 +161,7 @@ export default function MomentCard({ moment }: { moment: Moment }) {
      <div>
      <button
             className={`gap-1 flex items-center ${
-              bookmarked ? "text-green-600" : "text-gray-700"
+              bookmarked ? "text-blue-400" : "text-gray-700"
             } `}
             onClick={handleBookmarkToggle}
           >
