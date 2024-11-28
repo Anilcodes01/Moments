@@ -37,6 +37,7 @@ export const POST = async (req: Request) => {
     return NextResponse.json(
       {
         message: "Failed to bookmark the moment...!",
+        error
       },
       { status: 500 }
     );

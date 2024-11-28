@@ -26,6 +26,7 @@ export const POST = async (req: Request) => {
     return NextResponse.json(
       {
         message: "Failed to unbookmark the moment...!",
+        error
       },
       { status: 500 }
     );
