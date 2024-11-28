@@ -1,65 +1,29 @@
 "use client";
-import { useState, useEffect } from "react";
+import {  useEffect } from "react";
 import Appbar from "./components/Appbar";
-import axios from "axios";
+
 import MomentCard from "./components/MomentCard";
 import Sidebar from "./components/sidebar";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import MomentSkeleton from "./components/MomentSkeleton";
+import { useMoments } from "./contexts/MomentContext";
 
-interface User {
-  id: string;
-  name: string;
-  username: string;
-  avatarUrl?: string;
-}
 
-interface Moment {
-  id: string;
-  title?: string;
-  caption?: string;
-  description?: string; 
-  createdAt?: string;
-  coverImage?: string;
-  media?: { url: string }[];
-  user?: User;
-  isLiked: boolean;
-  likeCount: number
-}
 
 export default function Home() {
-  const [moments, setMoments] = useState<Moment[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+ 
+  const { moments, loading, error, fetchMoments } = useMoments();
+  
 
   const { data: session } = useSession();
-  const router = useRouter();
+  
 
   useEffect(() => {
    
 
-    const fetchMoments = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get("/api/moments/fetchAllMoments", {
-          headers: {
-            "Cache-Control": "no-store, no-cache, max-age=0, must-revalidate",
-            Pragma: "no-cache",
-            Expires: "0",
-          },
-        });
-        setMoments(response.data.moments);
-      } catch (error) {
-        console.log(error);
-        setError("Failed to fetch moments.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchMoments();
-  }, [router, session]);
+
+  }, [ session]);
 
   return (
     <div className="bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 text-white min-h-screen flex flex-col">
