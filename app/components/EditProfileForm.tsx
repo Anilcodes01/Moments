@@ -80,87 +80,100 @@ export default function EditProfileForm() {
           });
         }
 
-        toast.success('Profile updated successfully!');
+        toast.success("Profile updated successfully!");
 
         setTimeout(() => {
-            router.push(`/${userId}`);
-          }, 100);
-
+          router.push(`/${userId}`);
+        }, 100);
       }
     } catch (error) {
-        console.error('Failed to update profile:', error);
-        toast.error('Error while updating profile, please try again!')
+      console.error("Failed to update profile:", error);
+      toast.error("Error while updating profile, please try again!");
     } finally {
-        setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
-
   return (
-    <form onSubmit={handleSubmit} className="p-8 border m-4 min-h-screen rounded-lg">
-    <Toaster position="top-right" reverseOrder={false} />
-    <div className="text-2xl text-black font-bold">Edit Profile</div>
-    <div className="flex text-black pt-4 w-full flex-col gap-4">
+    <form
+      onSubmit={handleSubmit}
+      className="p-8 border m-4 min-h-screen rounded-lg"
+    >
+      <Toaster position="top-right" reverseOrder={false} />
+      <div className="text-2xl text-black font-bold">Edit Profile</div>
+      <div className="flex text-black pt-4 w-full flex-col gap-4">
+        <div className="flex flex-col justify-center relative"></div>
 
-
-{/* Profile Page Image Upload and Preview */}
-<div className="flex flex-col justify-center relative">
-        
-        
-       
-      </div>
-      
-      {/* Avatar Upload and Preview */}
-      <div className="flex flex-col justify-center relative">
-
-
-        <div className="w-[100px] h-[100px] rounded-full overflow-hidden mt-4">
-          {avatarPreview ? (
-            <Image src={avatarPreview} alt="Avatar Preview" width={384} height={384} className="object-cover w-full h-full" />
-          ) : (
-            <Image src={session?.user.avatarUrl || "/default-avatar.png"} alt="User Avatar" width={384} height={384} className="object-cover w-full h-full" />
-          )}
+        <div className="flex flex-col justify-center relative">
+          <div className="w-[100px] h-[100px] rounded-full overflow-hidden mt-4">
+            {avatarPreview ? (
+              <Image
+                src={avatarPreview}
+                alt="Avatar Preview"
+                width={384}
+                height={384}
+                className="object-cover w-full h-full"
+              />
+            ) : (
+              <Image
+                src={session?.user.avatarUrl || "/default-avatar.png"}
+                alt="User Avatar"
+                width={384}
+                height={384}
+                className="object-cover w-full h-full"
+              />
+            )}
+          </div>
+          <button
+            type="button"
+            className="absolute bottom-2 right-2 border p-2 rounded cursor-pointer text-sm"
+            onClick={() => document.getElementById("avatar")?.click()}
+          >
+            Change Avatar
+          </button>
+          <input
+            type="file"
+            id="avatar"
+            accept="image/*"
+            onChange={handleAvatarChange}
+            className="hidden"
+          />
         </div>
+
+        <div className="flex flex-col">
+          <label className="text-sm mb-2" htmlFor="name">
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="border rounded-lg text-sm outline-none px-2 py-1"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label className="text-sm mb-2" htmlFor="bio">
+            Bio
+          </label>
+          <textarea
+            id="bio"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            className="border rounded-lg outline-none p-2"
+          />
+        </div>
+
         <button
-          type="button" 
-          className="absolute bottom-2 right-2 border p-2 rounded cursor-pointer text-sm"
-          onClick={() => document.getElementById('avatar')?.click()}
+          type="submit"
+          disabled={isLoading}
+          className={`p-2 bg-blue-500 rounded-lg mt-2 text-white ${
+            isLoading ? "opacity-50" : ""
+          }`}
         >
-          Change Avatar
+          {isLoading ? "Saving..." : "Save Profile"}
         </button>
-        <input
-          type="file"
-          id="avatar"
-          accept="image/*"
-          onChange={handleAvatarChange}
-          className="hidden"
-        />
       </div>
-
-
-
-      <div className="flex flex-col">
-        <label className="text-sm mb-2" htmlFor="name">Name</label>
-        <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} className="border rounded-lg text-sm outline-none px-2 py-1" />
-      </div>
-      <div className="flex flex-col">
-        <label className="text-sm mb-2" htmlFor="bio">Bio</label>
-        <textarea id="bio" value={bio} onChange={(e) => setBio(e.target.value)} className="border rounded-lg outline-none p-2" />
-      </div>
-      
-      
-
-      
-      
-
-      <button 
-        type="submit"
-        disabled={isLoading} 
-        className={`p-2 bg-blue-500 rounded-lg mt-2 text-white ${isLoading ? "opacity-50" : ""}`}
-      >
-        {isLoading ? "Saving..." : "Save Profile"}
-      </button>
-    </div>
-  </form>
-  )
+    </form>
+  );
 }

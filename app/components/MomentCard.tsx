@@ -90,7 +90,6 @@ export default function MomentCard({ moment }: { moment: Moment }) {
 
   return (
     <div className="w-full lg:w-2/3  border-b mb-6 rounded-lg shadow-md p-2 border-slate-200 cursor-pointer bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-      {/* User Info */}
       {user && (
         <div className="flex justify-between py-2">
           <div

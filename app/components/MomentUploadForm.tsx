@@ -21,7 +21,7 @@ const CreateMoment = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const [visibility, setVisibility] = useState<"PUBLIC" | "PRIVATE">("PUBLIC")
+  const [visibility, setVisibility] = useState<"PUBLIC" | "PRIVATE">("PUBLIC");
 
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [coverPreviewUrl, setCoverPreviewUrl] = useState<string | null>(null);
@@ -70,14 +70,11 @@ const CreateMoment = () => {
       try {
         const file = event.target.files[0];
 
-        // Check file size before compression
         if (file.size > 10 * 1024 * 1024) {
-          // 10MB
           alert("File is too large. Please select an image under 10MB.");
           return;
         }
 
-        // Compress the image
         const compressedFile = await compressImage(file);
         const newMomentSections = [...momentSections];
         newMomentSections[index].image = compressedFile;
@@ -119,7 +116,7 @@ const CreateMoment = () => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
-    formData.append('visibility', visibility);
+    formData.append("visibility", visibility);
     if (coverImage) {
       formData.append("coverImage", coverImage);
     }
@@ -151,21 +148,25 @@ const CreateMoment = () => {
     }
   };
 
-
-
   const PrivacyToggle = () => (
     <div className="flex items-center  mb-6">
-      <div 
+      <div
         className={`flex items-center px-4 py-2 text-sm rounded-full cursor-pointer transition-colors duration-300 ${
-          visibility === "PUBLIC" 
-            ? 'bg-green-100 text-green-700' 
-            : 'bg-red-100 text-red-700'
+          visibility === "PUBLIC"
+            ? "bg-green-100 text-green-700"
+            : "bg-red-100 text-red-700"
         }`}
-        onClick={() => setVisibility(visibility === "PUBLIC" ? "PRIVATE" : "PUBLIC")}
+        onClick={() =>
+          setVisibility(visibility === "PUBLIC" ? "PRIVATE" : "PUBLIC")
+        }
       >
-        {visibility === "PUBLIC" ? <FaGlobe className="mr-2" /> : <FaLock className="mr-2" />}
+        {visibility === "PUBLIC" ? (
+          <FaGlobe className="mr-2" />
+        ) : (
+          <FaLock className="mr-2" />
+        )}
         <span className="font-semibold">
-          {visibility === "PUBLIC" ? 'Public Moment' : 'Private Moment'}
+          {visibility === "PUBLIC" ? "Public Moment" : "Private Moment"}
         </span>
       </div>
     </div>
@@ -176,10 +177,9 @@ const CreateMoment = () => {
       onSubmit={handleSubmit}
       className="space-y-6 min-h-screen lg:ml-48 lg:w-2/3 md:w-full bg-yellow-300 bg-gradient-to-br mb-10 from-blue-50 via-purple-50  to-pink-50 text-gray-700 p-6 pt-16"
     >
-
       {currentStep === 1 ? (
         <>
-        <PrivacyToggle />
+          <PrivacyToggle />
           <div className="mb-6">
             <input
               type="text"
@@ -191,8 +191,6 @@ const CreateMoment = () => {
               required
             />
           </div>
-
-          
 
           {momentSections.map((section, index) => (
             <div key={index} className="flex flex-col gap-6 mb-6">
@@ -342,7 +340,3 @@ const CreateMoment = () => {
 };
 
 export default CreateMoment;
-
-
-
-

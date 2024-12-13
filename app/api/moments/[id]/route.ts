@@ -7,7 +7,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
   const { id } = params;
 
   try {
-    // Fetch the moment with related media and user data
+   
     const moment = await prisma.moment.findUnique({
       where: { id },
       include: {
@@ -29,12 +29,12 @@ export async function GET(request: Request, { params }: { params: { id: string }
       return NextResponse.json({ error: 'Moment not found' }, { status: 404 });
     }
 
-    // Sort the media by the createdAt field (ascending order)
+  
     const sortedMedia = moment.media.sort((a, b) => 
       new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     );
 
-    // Return the moment with the sorted media
+    
     return NextResponse.json({ ...moment, media: sortedMedia });
   }  catch (error) {
     if (error instanceof Error) {

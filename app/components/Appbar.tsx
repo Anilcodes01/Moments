@@ -16,7 +16,7 @@ export default function Appbar() {
     <div className="h-12 flex fixed w-full border-b border-slate-200 items-center justify-between pr-4 pl-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 z-50 shadow-md">
       <div onClick={() => {
       router.push('/')
-      }} className="text-gray-800 text-xl font-bold">Moments</div>
+      }} className="text-gray-800 cursor-pointer text-xl font-bold">Moments</div>
       <div>
         {session ? (
           <UserAvatar

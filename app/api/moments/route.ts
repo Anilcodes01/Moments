@@ -50,7 +50,7 @@ export async function POST(request: Request) {
       },
     });
 
-    // Process Media Files
+
     const mediaPromises = Array.from(formData.entries())
       .filter(([key]) => key.startsWith("media_"))
       .map(async ([key, value], index) => {
@@ -79,7 +79,7 @@ export async function POST(request: Request) {
 
     const media = await Promise.all(mediaPromises);
 
-    // Process Mentioned Users
+    
     const mentionedUsersPromises = Array.from(formData.entries())
       .filter(([key]) => key.startsWith("mentionedUsers_"))
       .map(async ([key, value]) => {

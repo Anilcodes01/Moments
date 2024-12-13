@@ -19,14 +19,14 @@ export default function Search() {
   const router = useRouter();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); 
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<User[]>([]);
-  const [isSearching, setIsSearching] = useState(false); 
+  const [isSearching, setIsSearching] = useState(false);
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!dropdownOpen);
   };
-  console.log(isSearching)
+  console.log(isSearching);
 
   const handleDropdownClose = () => {
     setDropdownOpen(false);
@@ -54,11 +54,13 @@ export default function Search() {
   return (
     <div className="bg-white min-h-screen">
       <div className="bg-white text-black fixed border-b w-full justify-between h-12 flex items-center">
-        <button onClick={() => router.push("/")} className="text-xl font-bold ml-2">
+        <button
+          onClick={() => router.push("/")}
+          className="text-xl font-bold ml-2"
+        >
           Moments
         </button>
 
-        {/* Search bar */}
         <div className="relative  lg:w-1/2 md:w-1/2 sm:block ">
           <form className=" lg:w-full md:w-full">
             <div className="relative  lg:w-full md:w-full  ml-3">
@@ -73,41 +75,16 @@ export default function Search() {
               />
             </div>
           </form>
-
-          {/* Search results dropdown */}
-          {/* {searchResults.length > 0 && (
-            <div className="absolute w-full bg-white border rounded-lg shadow-lg mt-2 z-10">
-              {searchResults.map((user) => (
-                <div
-                  key={user.id}
-                  className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => router.push(`/user/${user.id}`)}
-                >
-                  {user.avatarUrl ? (
-                    <Image
-                      src={user.avatarUrl}
-                      alt={user.name}
-                      width={28}
-                      height={28}
-                      className="rounded-full"
-                    />
-                  ) : (
-                    <FaUserCircle size={28} className="text-gray-500" />
-                  )}
-                  <div className="ml-2">
-                    <p className="font-semibold">{user.name}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )} */}
         </div>
 
         <div className="mr-4 flex">
           <div className="relative flex items-center ml-4 sm:ml-4">
             {session?.user ? (
               <>
-                <div onClick={handleDropdownToggle} className="flex items-center">
+                <div
+                  onClick={handleDropdownToggle}
+                  className="flex items-center"
+                >
                   {session?.user.avatarUrl ? (
                     <Image
                       src={session.user.avatarUrl}
@@ -141,7 +118,9 @@ export default function Search() {
                       )}
                       <div className="mt-2 text-center">
                         <p className="font-semibold">{session.user.name}</p>
-                        <p className="text-sm text-gray-600">{session.user.email}</p>
+                        <p className="text-sm text-gray-600">
+                          {session.user.email}
+                        </p>
                       </div>
                       <div className="flex flex-col w-full mt-4">
                         <button
@@ -167,7 +146,10 @@ export default function Search() {
                 )}
               </>
             ) : (
-              <div onClick={() => router.push("/auth/signin")} className="hidden cursor-pointer sm:block">
+              <div
+                onClick={() => router.push("/auth/signin")}
+                className="hidden cursor-pointer sm:block"
+              >
                 Signin
               </div>
             )}
@@ -175,7 +157,6 @@ export default function Search() {
         </div>
       </div>
 
-      {/* Display searched users below */}
       {searchResults.length > 0 && (
         <div className=" flex overflow-y-hidden  gap-4 pt-20 pl-4 ">
           {searchResults.map((user) => (

@@ -52,7 +52,6 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
           : "w-full border-r  flex-col"
       } flex items-center h-full md:h-screen text-black`}
     >
-      {/* Navigation buttons */}
       <div
         className={`${
           isMobile
@@ -75,15 +74,17 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
         </Link>
 
         <div className="flex gap-2 hover:bg-slate-200 hover:text-gray-800 items-center text-gray-800 cursor-pointer  rounded-lg p-2 ">
-          <Search  onClick={() => {
-                router.push("/search");
-              }} size={24} />
+          <Search
+            onClick={() => {
+              router.push("/search");
+            }}
+            size={24}
+          />
           {!isMobile && (
             <button
-            onClick={() => {
-              router.push('/search')
-            }}
-             
+              onClick={() => {
+                router.push("/search");
+              }}
               className="text-xl"
             >
               Search
@@ -94,10 +95,9 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
           <SquarePlus onClick={() => router.push("/upload")} size={24} />
           {!isMobile && (
             <button
-            onClick={() => {
-              router.push('/upload')
-            }}
-              
+              onClick={() => {
+                router.push("/upload");
+              }}
               className="text-xl w-full flex items-center"
             >
               Post
@@ -107,11 +107,8 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
 
         {!isMobile ? (
           <div className="flex gap-2 text-white items-center cursor-pointer hover:bg-slate-200 rounded-lg p-2 ">
-            <BookOpenText className="text-gray-800"  size={24} />
-            <button
-             
-              className="text-xl text-gray-800 w-full flex items-start"
-            >
+            <BookOpenText className="text-gray-800" size={24} />
+            <button className="text-xl text-gray-800 w-full flex items-start">
               Stories
             </button>
           </div>

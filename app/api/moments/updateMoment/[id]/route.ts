@@ -49,7 +49,7 @@ export async function PUT(
 
         const caption = (formData.get(`caption_${index}`) as string) || "";
 
-        // Create new media entry for this moment
+      
         return prisma.media.create({
           data: {
             url: result.secure_url,

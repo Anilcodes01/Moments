@@ -16,7 +16,6 @@ type Media = {
   type: "PHOTO" | "VIDEO";
   caption: string;
   createdAt: string;
-  
 };
 
 type Moment = {
@@ -26,29 +25,28 @@ type Moment = {
   coverImage: string;
   createdAt: string;
   media: Media[];
-  
+
   user: {
     id: string;
     username: string;
     name: string;
     avatarUrl: string;
-    
   };
 };
 
 const formatCaption = (caption: string | undefined) => {
   if (!caption) return <span>No caption provided.</span>;
 
-  const mentionRegex = /@\w+/g; // Matches words starting with '@'
-  const parts = caption.split(mentionRegex); // Split text by mentions
-  const mentions = caption.match(mentionRegex); // Get all mentions
+  const mentionRegex = /@\w+/g;
+  const parts = caption.split(mentionRegex);
+  const mentions = caption.match(mentionRegex);
 
   return parts.map((part, index) => (
     <span key={index}>
       {part}
       {mentions && mentions[index] && (
         <Link
-          href={`/${mentions[index].substring(1)}`} // Link to user profile
+          href={`/${mentions[index].substring(1)}`}
           className="text-blue-500   "
         >
           {mentions[index]}
@@ -57,7 +55,6 @@ const formatCaption = (caption: string | undefined) => {
     </span>
   ));
 };
-
 
 const MomentPage = () => {
   const router = useRouter();
@@ -94,13 +91,11 @@ const MomentPage = () => {
     fetchMoment();
   }, [id]);
 
- 
-
   if (loading)
     return (
-      <p>
+      <div>
         <MainMomentSkeleton />
-      </p>
+      </div>
     );
   if (!moment) return <p>Moment not found.</p>;
 

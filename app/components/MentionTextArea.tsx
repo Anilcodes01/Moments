@@ -1,7 +1,7 @@
-'use client';
-import Image from 'next/image';
-import React, { useState, useRef, useEffect } from 'react';
-import { useDebouncedCallback } from 'use-debounce';
+"use client";
+import Image from "next/image";
+import React, { useState, useRef, useEffect } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
 interface User {
   id: string;
@@ -19,12 +19,12 @@ interface MentionTextareaProps {
 const MentionTextarea: React.FC<MentionTextareaProps> = ({
   value,
   onChange,
-  placeholder = '',
-  className = '',
+  placeholder = "",
+  className = "",
 }) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestions, setSuggestions] = useState<User[]>([]);
-  const [mentionQuery, setMentionQuery] = useState('');
+  const [mentionQuery, setMentionQuery] = useState("");
   const [cursorPosition, setCursorPosition] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -36,7 +36,9 @@ const MentionTextarea: React.FC<MentionTextareaProps> = ({
     if (!query) return;
 
     try {
-      const response = await fetch(`/api/user/search?query=${encodeURIComponent(query)}`);
+      const response = await fetch(
+        `/api/user/search?query=${encodeURIComponent(query)}`
+      );
       const users = await response.json();
 
       if (Array.isArray(users)) {
@@ -45,7 +47,7 @@ const MentionTextarea: React.FC<MentionTextareaProps> = ({
         setSuggestions([]);
       }
     } catch (error) {
-      console.error('Error fetching users:', error);
+      console.error("Error fetching users:", error);
       setSuggestions([]);
     }
   }, 300);
@@ -74,7 +76,7 @@ const MentionTextarea: React.FC<MentionTextareaProps> = ({
       setShowSuggestions(false);
     }
 
-    e.target.style.height = 'auto';
+    e.target.style.height = "auto";
     e.target.style.height = `${e.target.scrollHeight}px`;
 
     onChange(newValue, mentionedUsers);
@@ -109,21 +111,23 @@ const MentionTextarea: React.FC<MentionTextareaProps> = ({
     if (!showSuggestions) return;
 
     switch (e.key) {
-      case 'ArrowDown':
+      case "ArrowDown":
         e.preventDefault();
-        setSelectedIndex((prev) => (prev < suggestions.length - 1 ? prev + 1 : prev));
+        setSelectedIndex((prev) =>
+          prev < suggestions.length - 1 ? prev + 1 : prev
+        );
         break;
-      case 'ArrowUp':
+      case "ArrowUp":
         e.preventDefault();
         setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
         break;
-      case 'Enter':
+      case "Enter":
         e.preventDefault();
         if (suggestions[selectedIndex]) {
           insertMention(suggestions[selectedIndex]);
         }
         break;
-      case 'Escape':
+      case "Escape":
         setShowSuggestions(false);
         break;
     }
@@ -161,7 +165,7 @@ const MentionTextarea: React.FC<MentionTextareaProps> = ({
             <div
               key={user.id}
               className={`p-2 cursor-pointer hover:bg-gray-100 flex items-center gap-2 ${
-                index === selectedIndex ? 'bg-gray-100' : ''
+                index === selectedIndex ? "bg-gray-100" : ""
               }`}
               onClick={() => insertMention(user)}
             >
