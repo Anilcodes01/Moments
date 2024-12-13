@@ -1,5 +1,5 @@
 "use client";
-import { useSession, signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import UserAvatar from "./Avatar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
