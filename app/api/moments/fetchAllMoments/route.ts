@@ -13,13 +13,17 @@ export const GET = async () => {
 
     const moments = await prisma.moment.findMany({
       where: {
-        
-        visibility: Visibility.PUBLIC
+        visibility: Visibility.PUBLIC,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
+
       select: {
         id: true,
         coverImage: true,
         description: true,
+
         user: {
           select: {
             id: true,
@@ -28,6 +32,7 @@ export const GET = async () => {
             avatarUrl: true,
           },
         },
+
         likes: {
           where: {
             userId: userId,
@@ -38,11 +43,11 @@ export const GET = async () => {
         },
         bookmarks: {
           where: {
-            userId: userId
+            userId: userId,
           },
           select: {
-            userId: true
-          }
+            userId: true,
+          },
         },
         _count: {
           select: {
