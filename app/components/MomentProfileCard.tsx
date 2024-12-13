@@ -16,7 +16,7 @@ export default function MomentProfileCard({ moment }: { moment: Moment }) {
   return (
     <div onClick={() => {
       router.push(`/moments/${moment.id}`)
-    }} className="w-full max-w-xs mx-auto">
+    }} className="w-full cursor-pointer max-w-xs mx-auto">
       <div className="relative  w-full h-0 pb-[150%]"> 
         {imageUrl ? (
           <Image
