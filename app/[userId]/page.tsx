@@ -44,7 +44,7 @@ export default function Profile() {
   }) || [];
 
   return (
-    <div className="bg-gradient-to-br mb- min-h-screen from-blue-50 via-purple-50 to-pink-50 bg-yellow-300 text-gray-100 w-full flex flex-col   ">
+    <div className="bg-gradient-to-br mb- min-h-screen from-blue-50 via-purple-50 to-pink-50 bg-yellow-300 text-gray-100 w-full flex flex-col mb-10 md:mb-0   ">
       <div className="hidden md:block  bg-gradient-to-br from-blue-50 via-purple-50  to-pink-50 fixed w-52 lg:w-64 h-full shadow-md">
         <Sidebar />
       </div>

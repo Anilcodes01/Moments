@@ -30,7 +30,7 @@ export default function Appbar() {
         ) : (
           <Link
             href="/auth/signin"
-            onClick={() => signIn()}
+            
             className="text-gray-800"
           >
             Signin

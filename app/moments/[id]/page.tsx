@@ -177,7 +177,7 @@ const MomentPage = () => {
                       alt={media.caption}
                       width={500}
                       quality={75}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-64 object-cover"
                     />
                   ) : (
                     <video
